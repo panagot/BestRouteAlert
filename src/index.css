@@ -4143,7 +4143,6 @@ button.btn-secondary {
   }
 
   .receipt-doc__controls,
-  .app-demo-hint,
   .shortcuts-dlg__backdrop {
     display: none !important;
   }

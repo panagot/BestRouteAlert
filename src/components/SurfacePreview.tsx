@@ -33,35 +33,6 @@ export function SurfacePreview({
 
   return (
     <div className="surface-preview">
-      {sampleChoices.length > 1 && (
-        <div
-          className="surface-preview__toolbar surface-preview__toolbar--samples"
-          role="radiogroup"
-          aria-label="Sample receipt scenarios"
-        >
-          <p className="surface-preview__legend">
-            <span className="surface-preview__legend-title">Sample scenario</span>
-            <span className="surface-preview__legend-note">
-              Three contrasting mocks — RFQ vs AMM vs deep multi-hop (also in sidebar; Alt+1…3)
-            </span>
-          </p>
-          <div className="surface-preview__samples">
-            {sampleChoices.map((s) => (
-              <button
-                key={s.key}
-                type="button"
-                role="radio"
-                aria-checked={activeSampleKey === s.key}
-                className={`surface-preview__sample ${activeSampleKey === s.key ? 'surface-preview__sample--active' : ''}`}
-                onClick={() => onSampleChange(s.key)}
-              >
-                <span className="surface-preview__sample-label">{s.label}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
       <div
         className="surface-preview__toolbar"
         role="radiogroup"

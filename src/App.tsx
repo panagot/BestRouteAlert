@@ -9,7 +9,6 @@ import './App.css'
 
 const SURFACE_STORAGE_KEY = 'omnireceipt-surface-preview'
 const SAMPLE_STORAGE_KEY = 'omnireceipt-active-sample'
-const HINT_DISMISSED_KEY = 'omnireceipt-hint-dismissed'
 
 function readStoredSampleKey(): string | null {
   try {
@@ -58,13 +57,6 @@ export default function App() {
   }, [activeKey, surfaceMode])
 
   const [shortcutsOpen, setShortcutsOpen] = useState(false)
-  const [hintDismissed, setHintDismissed] = useState(() => {
-    try {
-      return localStorage.getItem(HINT_DISMISSED_KEY) === '1'
-    } catch {
-      return false
-    }
-  })
 
   useEffect(() => {
     try {
@@ -119,15 +111,6 @@ export default function App() {
     )
   }
 
-  const dismissHint = () => {
-    setHintDismissed(true)
-    try {
-      localStorage.setItem(HINT_DISMISSED_KEY, '1')
-    } catch {
-      /* ignore */
-    }
-  }
-
   return (
     <div className="app-frame">
       <a
@@ -173,19 +156,6 @@ export default function App() {
                 </button>
               </p>
             </header>
-            {!hintDismissed && (
-              <aside className="app-demo-hint" role="status">
-                <p className="app-demo-hint__text">
-                  <strong>Demo tip:</strong> use <kbd className="app-demo-hint__kbd">Alt</kbd> +{' '}
-                  <kbd className="app-demo-hint__kbd">1</kbd>–<kbd className="app-demo-hint__kbd">3</kbd> to switch
-                  scenarios (same order as the sidebar). Press <kbd className="app-demo-hint__kbd">?</kbd> anytime for
-                  the full list.
-                </p>
-                <button type="button" className="app-demo-hint__dismiss" onClick={dismissHint}>
-                  Got it
-                </button>
-              </aside>
-            )}
             <SurfacePreview
               mode={surfaceMode}
               onModeChange={setSurfaceMode}
