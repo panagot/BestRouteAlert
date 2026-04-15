@@ -1,4 +1,3 @@
-import { useId } from 'react'
 import { EXAMPLES } from '../data/examples'
 
 function IconRfq() {
@@ -65,29 +64,25 @@ export function Sidebar({
   activeKey: string
   onSelect: (key: string) => void
 }) {
-  const logoGradId = useId().replace(/[^a-zA-Z0-9_-]/g, '') || 'sidebarLogo'
-
   return (
     <aside className="app-sidebar" aria-label="OmniReceipt navigation">
       <header className="app-sidebar__masthead">
-        <div className="app-sidebar__logo" aria-hidden>
-          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
-            <rect width="26" height="26" rx="8" fill={`url(#${logoGradId})`} />
-            <path
-              d="M8 9h10M8 13h7M8 17h9"
-              stroke="white"
-              strokeOpacity="0.95"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-            />
-            <defs>
-              <linearGradient id={logoGradId} x1="4" y1="3" x2="22" y2="23" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#3b82f6" />
-                <stop offset="1" stopColor="#6366f1" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
+        <a
+          href="https://ton.org/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="app-sidebar__tonlink"
+          aria-label="TON — The Open Network (opens in new tab)"
+        >
+          <span className="app-sidebar__logo" aria-hidden>
+            <svg width="26" height="26" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img">
+              <path
+                fill="#4DB8FF"
+                d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zM7.902 6.697h8.196c1.505 0 2.462 1.628 1.705 2.94l-5.059 8.765a.86.86 0 0 1-1.488 0L6.199 9.637c-.758-1.314.197-2.94 1.703-2.94zm4.844 1.496v7.58l1.102-2.128 2.656-4.756a.465.465 0 0 0-.408-.696h-3.35zM7.9 8.195a.464.464 0 0 0-.408.694l2.658 4.754 1.102 2.13V8.195H7.9z"
+              />
+            </svg>
+          </span>
+        </a>
         <div className="app-sidebar__masthead-text">
           <h1 className="app-sidebar__product">OmniReceipt</h1>
           <p className="app-sidebar__product-sub">Best-route transparency for TON swaps</p>
