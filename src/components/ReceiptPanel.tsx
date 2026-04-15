@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useId, useState } from 'react'
 import type { RouteReceipt } from '../types/receipt'
 import { useMediaQuery } from '../hooks/useMediaQuery'
 import { ProofAttestation, TransactionFactsGrid, WhyRouteWon } from './ReceiptProduction'
@@ -91,6 +91,7 @@ export function ReceiptPanel({
     | { target: 'link' | 'summary'; status: 'success' }
     | { target: 'link' | 'summary'; status: 'error' }
   const [copyFeedback, setCopyFeedback] = useState<CopyFeedback>(null)
+  const chromeGradId = useId().replace(/:/g, '')
 
   useEffect(() => {
     setCopyFeedback(null)
@@ -131,6 +132,23 @@ export function ReceiptPanel({
     >
       <header className="receipt-doc__chrome">
         <div className="receipt-doc__chrome-left">
+          <span className="receipt-doc__chrome-mark" aria-hidden>
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <rect x="3" y="2" width="16" height="18" rx="3" fill={`url(#${chromeGradId})`} />
+              <path
+                d="M7 7h8M7 10.5h6M7 14h7"
+                stroke="rgba(255,255,255,0.92)"
+                strokeWidth="1.3"
+                strokeLinecap="round"
+              />
+              <defs>
+                <linearGradient id={chromeGradId} x1="5" y1="2" x2="17" y2="20" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#2563eb" />
+                  <stop offset="1" stopColor="#6366f1" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </span>
           <span className="receipt-doc__issuer">Omniston aggregation</span>
           <span className="receipt-doc__chrome-sep" aria-hidden>
             ·
@@ -154,43 +172,57 @@ export function ReceiptPanel({
           {copyFeedback?.status === 'error' && copyFeedback.target === 'summary' && 'Could not copy summary. Try again or copy sections manually.'}
         </p>
         <ReceiptWatermark />
-        <div className="receipt-doc__hero-wrap">
-          <SavingsSparkles active={celebrate} />
-          <header className="receipt-doc__hero">
-            <div className="receipt-doc__hero-text">
-              <p className="receipt-doc__eyebrow">Post-trade disclosure</p>
-              <h1 id="receipt-title" className="receipt-doc__title receipt-doc__title--pair">
-                <span className="receipt-doc__pair-from">{receipt.spent.symbol}</span>
-                <span className="receipt-doc__pair-arrow" aria-hidden>
-                  →
-                </span>
-                <span className="receipt-doc__pair-to">{receipt.received.symbol}</span>
-              </h1>
-              <ul className="receipt-doc__chips" aria-label="Receipt metadata">
-                <li className="receipt-doc__chip">{receipt.network}</li>
-                <li className="receipt-doc__chip tabular">{formatReceiptDate(receipt.createdAtIso)}</li>
-                <li className="receipt-doc__chip mono tabular">#{receipt.shortId}</li>
-                <li
-                  className="receipt-doc__chip receipt-doc__chip--savings tabular"
-                  title="Estimated improvement vs the baseline described in the quote comparison"
-                >
-                  +{pct.toFixed(2)}% vs baseline
-                </li>
-                <li
-                  className={`receipt-doc__chip receipt-doc__chip--route receipt-doc__chip--route--${receipt.comparison.winner}`}
-                  title="Dominant execution style for this swap"
-                >
-                  {receipt.comparison.winner === 'rfq' ? 'RFQ in route' : 'AMM-only route'}
-                </li>
-              </ul>
-            </div>
-            <SwapHero spent={receipt.spent} received={receipt.received} />
-          </header>
-        </div>
+        <div className="receipt-doc__main">
+          <div className="receipt-doc__hero-wrap">
+            <SavingsSparkles active={celebrate} />
+            <header className="receipt-doc__hero">
+              <div className="receipt-doc__hero-text">
+                <p className="receipt-doc__eyebrow">Post-trade disclosure</p>
+                <h1 id="receipt-title" className="receipt-doc__title receipt-doc__title--pair">
+                  <span className="receipt-doc__pair-from">{receipt.spent.symbol}</span>
+                  <span className="receipt-doc__pair-arrow" aria-hidden>
+                    →
+                  </span>
+                  <span className="receipt-doc__pair-to">{receipt.received.symbol}</span>
+                </h1>
+                <ul className="receipt-doc__chips" aria-label="Receipt metadata">
+                  <li className="receipt-doc__chip">{receipt.network}</li>
+                  <li className="receipt-doc__chip tabular">{formatReceiptDate(receipt.createdAtIso)}</li>
+                  <li className="receipt-doc__chip mono tabular">#{receipt.shortId}</li>
+                  <li
+                    className="receipt-doc__chip receipt-doc__chip--savings tabular"
+                    title="Estimated improvement vs the baseline described in the quote comparison"
+                  >
+                    +{pct.toFixed(2)}% vs baseline
+                  </li>
+                  <li
+                    className={`receipt-doc__chip receipt-doc__chip--route receipt-doc__chip--route--${receipt.comparison.winner}`}
+                    title="Dominant execution style for this swap"
+                  >
+                    {receipt.comparison.winner === 'rfq' ? 'RFQ in route' : 'AMM-only route'}
+                  </li>
+                </ul>
+              </div>
+              <SwapHero spent={receipt.spent} received={receipt.received} />
+            </header>
+          </div>
 
         <p className="receipt-doc__intro">
-          Everything below is a <strong>static mock</strong> shaped like a production receipt: the same sections you
-          would bind to real Omniston quotes, wallet context, and an on-chain transaction on TON.
+          <span className="receipt-doc__intro-icon" aria-hidden>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path
+                d="M4 3.5h12a1 1 0 011 1v11l-2.5-2H4a1 1 0 01-1-1v-8a1 1 0 011-1z"
+                stroke="currentColor"
+                strokeWidth="1.4"
+                strokeLinejoin="round"
+              />
+              <path d="M6 7h8M6 10h5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+            </svg>
+          </span>
+          <span className="receipt-doc__intro-copy">
+            Everything below is a <strong>static mock</strong> shaped like a production receipt: the same sections you
+            would bind to real Omniston quotes, wallet context, and an on-chain transaction on TON.
+          </span>
         </p>
 
         <TransactionFactsGrid receipt={receipt} />
@@ -355,6 +387,7 @@ export function ReceiptPanel({
             </p>
           </div>
         </footer>
+        </div>
       </div>
     </article>
   )
