@@ -159,73 +159,6 @@
   z-index: 1;
 }
 
-.app-hero {
-  margin: 0 0 1rem;
-  padding: 1rem 1.15rem 1.05rem;
-  border-radius: 14px;
-  background: linear-gradient(125deg, rgba(255, 255, 255, 0.92), rgba(241, 245, 249, 0.95));
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
-}
-
-.app-hero__tagline {
-  margin: 0 0 0.55rem;
-  font-size: clamp(0.9375rem, 2.1vw, 1.0625rem);
-  font-weight: 600;
-  line-height: 1.45;
-  letter-spacing: -0.02em;
-  color: #0f172a;
-}
-
-.app-hero__tagline strong {
-  font-weight: 800;
-  color: #1d4ed8;
-}
-
-.app-hero__why {
-  margin: 0;
-  font-size: 0.8125rem;
-  line-height: 1.55;
-  color: #475569;
-}
-
-.app-hero__why strong {
-  color: #334155;
-}
-
-.app-hero__actions {
-  margin: 0.65rem 0 0;
-}
-
-.app-hero__shortcut-btn {
-  padding: 0.35rem 0.65rem;
-  border-radius: 999px;
-  border: 1px solid rgba(15, 23, 42, 0.12);
-  background: rgba(255, 255, 255, 0.75);
-  font: inherit;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #475569;
-  cursor: pointer;
-}
-
-.app-hero__shortcut-btn:hover {
-  border-color: rgba(37, 99, 235, 0.35);
-  color: #1e40af;
-}
-
-.app-hero__kbd {
-  display: inline-block;
-  margin-left: 0.25rem;
-  padding: 0.08rem 0.35rem;
-  border-radius: 6px;
-  border: 1px solid rgba(15, 23, 42, 0.12);
-  background: #f1f5f9;
-  font-family: ui-monospace, monospace;
-  font-size: 0.65rem;
-  font-weight: 700;
-}
-
 @media (max-width: 900px) {
   .app-frame {
     grid-template-columns: 1fr;
@@ -235,11 +168,6 @@
   .app-stage {
     padding: 1.25rem 1rem 2rem;
     min-height: 0;
-  }
-
-  .app-hero {
-    padding: 0.85rem 0.95rem;
-    margin-bottom: 0.85rem;
   }
 }
 
@@ -570,10 +498,6 @@
 }
 
 @media print {
-  .app-hero {
-    display: none !important;
-  }
-
   .surface-preview__toolbar,
   .surface-preview__web-bar {
     display: none !important;

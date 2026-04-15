@@ -125,7 +125,11 @@ export default function App() {
       >
         Skip to receipt
       </a>
-      <Sidebar activeKey={activeKey} onSelect={setActiveKey} />
+      <Sidebar
+        activeKey={activeKey}
+        onSelect={setActiveKey}
+        onOpenShortcuts={() => setShortcutsOpen(true)}
+      />
       <div className="app-stage">
         <div className="app-stage__ambient" aria-hidden>
           <span className="app-stage__blob app-stage__blob--a" />
@@ -141,21 +145,6 @@ export default function App() {
           aria-label="Receipt preview"
         >
           <div className="app-stage__content">
-            <header className="app-hero">
-              <p className="app-hero__tagline">
-                Making Omniston&apos;s intelligent routing <strong>visible</strong> and{' '}
-                <strong>trustworthy</strong>.
-              </p>
-              <p className="app-hero__why">
-                <strong>Why TON:</strong> aggregated swaps should be as easy to <strong>audit</strong> as they are to
-                sign — a receipt layer closes the loop for users, support, and partners embedding Omniston.
-              </p>
-              <p className="app-hero__actions">
-                <button type="button" className="app-hero__shortcut-btn" onClick={() => setShortcutsOpen(true)}>
-                  Keyboard shortcuts <span className="app-hero__kbd">?</span>
-                </button>
-              </p>
-            </header>
             <SurfacePreview
               mode={surfaceMode}
               onModeChange={setSurfaceMode}

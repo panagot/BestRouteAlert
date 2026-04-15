@@ -264,25 +264,93 @@ body {
   padding: 0.2rem 0.45rem;
 }
 
-.app-sidebar__tagline {
-  margin: 0;
-  font-size: 0.75rem;
-  line-height: 1.45;
-  color: var(--rail-muted);
-  padding-bottom: 0.65rem;
-  border-bottom: 1px solid var(--sb-line);
+.app-sidebar__value-block {
+  margin: 0 0 0.85rem;
+  padding: 0.75rem 0.85rem 0.8rem;
+  border-radius: 12px;
+  background: linear-gradient(165deg, rgba(248, 250, 252, 0.98), rgba(255, 255, 255, 0.92));
+  border: 1px solid var(--sb-line);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset;
 }
 
-.app-sidebar__tagline-note {
+.app-sidebar__value-tagline {
+  margin: 0 0 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: -0.02em;
   color: var(--rail-text);
-  opacity: 0.85;
+}
+
+.app-sidebar__value-tagline strong {
+  font-weight: 800;
+  color: #1d4ed8;
+}
+
+.app-sidebar__value-why {
+  margin: 0 0 0.55rem;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--rail-muted);
+}
+
+.app-sidebar__value-why strong {
+  color: var(--rail-text);
+}
+
+.app-sidebar__ton-note {
+  margin: 0 0 0.65rem;
+  font-size: 0.6875rem;
+  line-height: 1.45;
+  color: var(--rail-muted);
+}
+
+.app-sidebar__ton-note strong {
+  color: #1d4ed8;
+  font-weight: 800;
+}
+
+.app-sidebar__ton-note-muted {
+  opacity: 0.9;
   font-weight: 600;
 }
 
-.app-sidebar__tagline-ton {
-  font-weight: 800;
-  color: #1d4ed8;
-  letter-spacing: 0.02em;
+.app-sidebar__shortcuts-btn {
+  width: 100%;
+  padding: 0.4rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid rgba(37, 99, 235, 0.22);
+  background: rgba(255, 255, 255, 0.85);
+  font: inherit;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: #334155;
+  cursor: pointer;
+}
+
+.app-sidebar__shortcuts-btn:hover {
+  border-color: rgba(37, 99, 235, 0.45);
+  color: #1e40af;
+}
+
+.app-sidebar__shortcuts-btn:focus {
+  outline: none;
+}
+
+.app-sidebar__shortcuts-btn:focus-visible {
+  box-shadow: 0 0 0 2px #fff, 0 0 0 5px rgba(37, 99, 235, 0.4);
+}
+
+.app-sidebar__shortcuts-kbd {
+  display: inline-block;
+  margin-left: 0.3rem;
+  padding: 0.06rem 0.32rem;
+  border-radius: 6px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: #f1f5f9;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.6rem;
+  font-weight: 700;
 }
 
 .app-sidebar__highlights {
@@ -705,9 +773,17 @@ body {
     padding: 0.15rem 0.4rem;
   }
 
-  .app-sidebar__tagline {
+  .app-sidebar__value-block {
+    padding: 0.65rem 0.7rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .app-sidebar__value-tagline {
+    font-size: 0.75rem;
+  }
+
+  .app-sidebar__value-why {
     font-size: 0.6875rem;
-    padding-bottom: 0.55rem;
   }
 
   .app-sidebar__details-summary {

@@ -75,9 +75,11 @@ const HIGHLIGHTS = [
 export function Sidebar({
   activeKey,
   onSelect,
+  onOpenShortcuts,
 }: {
   activeKey: string
   onSelect: (key: string) => void
+  onOpenShortcuts: () => void
 }) {
   return (
     <aside className="app-sidebar" aria-label="OmniReceipt navigation">
@@ -105,11 +107,22 @@ export function Sidebar({
         <span className="app-sidebar__pill">UI prototype</span>
       </header>
 
-      <p className="app-sidebar__tagline">
-        Post-trade disclosure for aggregated swaps on{' '}
-        <strong className="app-sidebar__tagline-ton">TON</strong> (The Open Network — not the Tron blockchain).{' '}
-        <span className="app-sidebar__tagline-note">Mock data in this demo.</span>
-      </p>
+      <div className="app-sidebar__value-block">
+        <p className="app-sidebar__value-tagline">
+          Making Omniston&apos;s intelligent routing <strong>visible</strong> and <strong>trustworthy</strong>.
+        </p>
+        <p className="app-sidebar__value-why">
+          <strong>Why TON:</strong> aggregated swaps should be as easy to <strong>audit</strong> as they are to sign — a
+          receipt layer closes the loop for users, support, and partners embedding Omniston.
+        </p>
+        <p className="app-sidebar__ton-note">
+          <strong>TON</strong> means The Open Network — not the Tron blockchain.{' '}
+          <span className="app-sidebar__ton-note-muted">Mock data in this demo.</span>
+        </p>
+        <button type="button" className="app-sidebar__shortcuts-btn" onClick={onOpenShortcuts}>
+          Keyboard shortcuts <span className="app-sidebar__shortcuts-kbd">?</span>
+        </button>
+      </div>
 
       <nav className="app-sidebar__nav" aria-label="Sample receipts">
         <h2 className="app-sidebar__section-title">Samples</h2>
