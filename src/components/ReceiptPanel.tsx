@@ -139,10 +139,6 @@ export function ReceiptPanel({
             aria-label="TON — The Open Network (opens in new tab)"
           >
             <span className="receipt-doc__chrome-mark" aria-hidden>
-              {/*
-                TON mark geometry after Simple Icons (CC0): https://github.com/simple-icons/simple-icons
-                Brand color: https://ton.org/brand-assets
-              */}
               <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img">
                 <path
                   fill="#4DB8FF"
