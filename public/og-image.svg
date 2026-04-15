@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <defs>
+    <linearGradient id="ogBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="50%" stop-color="#e8edf3" />
+      <stop offset="100%" stop-color="#cbd5e1" />
+    </linearGradient>
+    <linearGradient id="ogOrb" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#4DB8FF" />
+      <stop offset="1" stop-color="#2563eb" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#ogBg)" />
+  <circle cx="1040" cy="120" r="200" fill="url(#ogOrb)" opacity="0.2" />
+  <text x="72" y="268" fill="#0f172a" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="76" font-weight="800" letter-spacing="-0.03em">
+    OmniReceipt
+  </text>
+  <text x="72" y="338" fill="#475569" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="30" font-weight="500">
+    Best-route transparency for TON swaps
+  </text>
+  <text x="72" y="410" fill="#64748b" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="22" font-weight="500">
+    Web · wallet · Telegram — post-trade disclosure (prototype)
+  </text>
+</svg>

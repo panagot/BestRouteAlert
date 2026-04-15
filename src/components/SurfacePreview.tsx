@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import type { RouteReceipt } from '../types/receipt'
 import { ReceiptPanel } from './ReceiptPanel'
 import { TelegramReceiptMiniApp } from './TelegramReceiptMiniApp'
@@ -22,6 +23,8 @@ export function SurfacePreview({
   receipt: RouteReceipt
   shareBaseUrl: string
 }) {
+  const segmentRefs = useRef<(HTMLButtonElement | null)[]>([])
+
   return (
     <div className="surface-preview">
       <div
@@ -36,15 +39,44 @@ export function SurfacePreview({
           </span>
         </p>
         <div className="surface-preview__segments">
-          {MODES.map(({ id, label, hint }) => (
+          {MODES.map(({ id, label, hint }, index) => (
             <button
               key={id}
+              ref={(el) => {
+                segmentRefs.current[index] = el
+              }}
               type="button"
               role="radio"
+              tabIndex={mode === id ? 0 : -1}
               aria-checked={mode === id}
               className={`surface-preview__segment ${mode === id ? 'surface-preview__segment--active' : ''}`}
               onClick={() => onModeChange(id)}
               title={hint}
+              onKeyDown={(e) => {
+                if (e.key === ' ' || e.key === 'Enter') {
+                  e.preventDefault()
+                  onModeChange(id)
+                  return
+                }
+                let next = index
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                  e.preventDefault()
+                  next = (index + 1) % MODES.length
+                } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                  e.preventDefault()
+                  next = (index - 1 + MODES.length) % MODES.length
+                } else if (e.key === 'Home') {
+                  e.preventDefault()
+                  next = 0
+                } else if (e.key === 'End') {
+                  e.preventDefault()
+                  next = MODES.length - 1
+                } else {
+                  return
+                }
+                onModeChange(MODES[next]!.id)
+                segmentRefs.current[next]?.focus()
+              }}
             >
               <span className="surface-preview__segment-label">{label}</span>
               <span className="surface-preview__segment-hint">{hint}</span>

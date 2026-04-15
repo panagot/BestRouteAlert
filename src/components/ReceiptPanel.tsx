@@ -16,6 +16,7 @@ import { SavingsComparisonVisual } from './SavingsComparisonVisual'
 import { SwapHero } from './SwapHero'
 import { VenueBadge } from './VenueBadge'
 import { formatReceiptDate } from '../utils/receiptDisplay'
+import { buildReceiptShareUrl } from '../utils/shareUrl'
 
 function LegsTable({
   receipt,
@@ -81,7 +82,7 @@ export function ReceiptPanel({
   receipt: RouteReceipt
   shareBaseUrl: string
 }) {
-  const shareUrl = `${shareBaseUrl.replace(/\/$/, '')}/r/${receipt.id}`
+  const shareUrl = buildReceiptShareUrl(shareBaseUrl, receipt.id)
   const pct = receipt.savingsVsBestSingleVenueBps / 100
   const celebrate = receipt.savingsVsBestSingleVenueBps >= 28
   const legsWide = useMediaQuery('(min-width: 721px)')
@@ -381,7 +382,8 @@ export function ReceiptPanel({
             )}
             <p className="receipt-doc__fineprint">
               In production, this URL would resolve to stored quote metadata and settlement proof. Here it is only a
-              placeholder string for demos and grant reviews.
+              placeholder string for demos and grant reviews. The path uses the stable receipt id ({receipt.id}), not the
+              short reference #{receipt.shortId}.
             </p>
           </div>
         </footer>

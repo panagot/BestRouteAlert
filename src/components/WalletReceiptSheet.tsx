@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import type { RouteReceipt } from '../types/receipt'
 import { formatReceiptDate } from '../utils/receiptDisplay'
 import { buildReceiptTextSummary } from '../utils/receiptTextSummary'
+import { buildReceiptShareUrl } from '../utils/shareUrl'
 import { TokenGlyph } from './TokenGlyph'
 import { VenueBadge } from './VenueBadge'
 
@@ -21,13 +22,14 @@ export function WalletReceiptSheet({
   receipt: RouteReceipt
   shareBaseUrl: string
 }) {
-  const shareUrl = `${shareBaseUrl.replace(/\/$/, '')}/r/${receipt.id}`
+  const shareUrl = buildReceiptShareUrl(shareBaseUrl, receipt.id)
   const pct = receipt.savingsVsBestSingleVenueBps / 100
   const slip =
     receipt.slippageBps != null ? `${(receipt.slippageBps / 100).toFixed(2)}%` : '—'
   const gas =
     receipt.totalGas != null ? `${receipt.totalGas.amount} ${receipt.totalGas.symbol}` : '—'
   const [copyLabel, setCopyLabel] = useState<null | 'link' | 'summary'>(null)
+  const [copyError, setCopyError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!copyLabel) return
@@ -35,21 +37,33 @@ export function WalletReceiptSheet({
     return () => window.clearTimeout(t)
   }, [copyLabel])
 
+  useEffect(() => {
+    if (!copyError) return
+    const t = window.setTimeout(() => setCopyError(null), 4500)
+    return () => window.clearTimeout(t)
+  }, [copyError])
+
   const copyLink = async () => {
+    setCopyError(null)
     try {
-      await navigator.clipboard?.writeText(shareUrl)
+      if (!navigator.clipboard?.writeText) throw new Error('clipboard unavailable')
+      await navigator.clipboard.writeText(shareUrl)
       setCopyLabel('link')
     } catch {
       setCopyLabel(null)
+      setCopyError('Could not copy link — try the web receipt or another browser.')
     }
   }
 
   const copySummary = async () => {
+    setCopyError(null)
     try {
-      await navigator.clipboard?.writeText(buildReceiptTextSummary(receipt, shareUrl))
+      if (!navigator.clipboard?.writeText) throw new Error('clipboard unavailable')
+      await navigator.clipboard.writeText(buildReceiptTextSummary(receipt, shareUrl))
       setCopyLabel('summary')
     } catch {
       setCopyLabel(null)
+      setCopyError('Could not copy summary — clipboard blocked or unavailable.')
     }
   }
 
@@ -165,6 +179,7 @@ export function WalletReceiptSheet({
         {receipt.explorerTxUrl ? (
           <a className="wallet-recv__btn wallet-recv__btn--primary" href={receipt.explorerTxUrl} target="_blank" rel="noopener noreferrer">
             Open in explorer
+            <span className="sr-only"> (opens in new tab)</span>
           </a>
         ) : (
           <span className="wallet-recv__btn wallet-recv__btn--disabled">No explorer link</span>
@@ -176,6 +191,12 @@ export function WalletReceiptSheet({
           {copyLabel === 'summary' ? 'Summary copied' : 'Copy text summary'}
         </button>
       </div>
+
+      {copyError && (
+        <p className="wallet-recv__copy-hint wallet-recv__copy-hint--error" role="status">
+          {copyError}
+        </p>
+      )}
 
       <p className="wallet-recv__disclaimer">OmniReceipt · mock disclosure UI</p>
     </div>

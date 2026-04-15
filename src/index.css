@@ -2558,6 +2558,11 @@ body {
   color: #b45309;
 }
 
+.why-route__body {
+  flex: 1;
+  min-width: 0;
+}
+
 .why-route__title {
   margin: 0 0 0.35rem;
   font-size: 0.6875rem;
@@ -3118,6 +3123,17 @@ button.btn-secondary {
   flex-direction: column;
   gap: 0.45rem;
   margin-top: 0.35rem;
+}
+
+.wallet-recv__copy-hint {
+  margin: 0.35rem 0 0;
+  font-size: 0.6875rem;
+  line-height: 1.4;
+  color: #64748b;
+}
+
+.wallet-recv__copy-hint--error {
+  color: #b91c1c;
 }
 
 .wallet-recv__btn {

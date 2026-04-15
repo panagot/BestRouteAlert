@@ -96,14 +96,19 @@ export function Sidebar({
 
       <nav className="app-sidebar__nav" aria-label="Sample receipts">
         <h2 className="app-sidebar__section-title">Samples</h2>
-        <p className="app-sidebar__kbd-hint">
-          <kbd className="app-sidebar__kbd">Alt</kbd>
-          <span className="app-sidebar__kbd-plus">+</span>
-          <kbd className="app-sidebar__kbd">1</kbd>
-          <span className="app-sidebar__kbd-slash">/</span>
-          <kbd className="app-sidebar__kbd">2</kbd>
-          <span className="app-sidebar__kbd-desc">switch</span>
-        </p>
+        {EXAMPLES.length > 1 && (
+          <p className="app-sidebar__kbd-hint">
+            <kbd className="app-sidebar__kbd">Alt</kbd>
+            <span className="app-sidebar__kbd-plus">+</span>
+            {EXAMPLES.slice(0, 9).map((ex, i) => (
+              <span key={ex.key}>
+                {i > 0 && <span className="app-sidebar__kbd-slash">/</span>}
+                <kbd className="app-sidebar__kbd">{i + 1}</kbd>
+              </span>
+            ))}
+            <span className="app-sidebar__kbd-desc">switch</span>
+          </p>
+        )}
         <ul className="app-sidebar__cards" role="list">
           {EXAMPLES.map((ex) => {
             const active = activeKey === ex.key

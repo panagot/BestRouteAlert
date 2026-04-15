@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import type { RouteReceipt } from '../types/receipt'
 import { formatReceiptDate } from '../utils/receiptDisplay'
 import { buildReceiptTextSummary } from '../utils/receiptTextSummary'
+import { buildReceiptShareUrl } from '../utils/shareUrl'
 import { VenueBadge } from './VenueBadge'
 
 export function TelegramReceiptMiniApp({
@@ -11,7 +12,7 @@ export function TelegramReceiptMiniApp({
   receipt: RouteReceipt
   shareBaseUrl: string
 }) {
-  const shareUrl = `${shareBaseUrl.replace(/\/$/, '')}/r/${receipt.id}`
+  const shareUrl = buildReceiptShareUrl(shareBaseUrl, receipt.id)
   const pct = receipt.savingsVsBestSingleVenueBps / 100
   const [flash, setFlash] = useState<null | string>(null)
 
@@ -25,10 +26,11 @@ export function TelegramReceiptMiniApp({
 
   const copy = async (label: string, text: string) => {
     try {
-      await navigator.clipboard?.writeText(text)
+      if (!navigator.clipboard?.writeText) throw new Error('clipboard unavailable')
+      await navigator.clipboard.writeText(text)
       toast(label)
     } catch {
-      toast('Copy blocked')
+      toast('Could not copy — clipboard blocked or unavailable')
     }
   }
 
@@ -98,6 +100,7 @@ export function TelegramReceiptMiniApp({
         {receipt.explorerTxUrl && (
           <a className="tg-recv__key tg-recv__key--link" href={receipt.explorerTxUrl} target="_blank" rel="noopener noreferrer">
             Block explorer
+            <span className="sr-only"> (opens in new tab)</span>
           </a>
         )}
         <button type="button" className="tg-recv__key" onClick={() => void copy('Link copied', shareUrl)}>

@@ -3,8 +3,8 @@ import type { RouteHop } from '../types/receipt'
 /** Horizontal milestone strip — quote → route → settle (decorative). */
 export function ExecutionTrail() {
   return (
-    <div className="exec-trail" aria-hidden>
-      <svg className="exec-trail__svg" viewBox="0 0 520 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <div className="exec-trail">
+      <svg className="exec-trail__svg" viewBox="0 0 520 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
         <defs>
           <linearGradient id="exec-trail-grad" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.35" />
@@ -43,7 +43,7 @@ export function ExecutionTrail() {
           fill="none"
         />
       </svg>
-      <ol className="exec-trail__labels">
+      <ol className="exec-trail__labels" aria-label="Execution milestones">
         <li>Quotes captured</li>
         <li>Route locked in</li>
         <li>Settled on-chain</li>
@@ -66,13 +66,15 @@ export function HopImpactChart({ hops }: { hops: RouteHop[] }) {
       <div className="hop-chart__plot">
         {hops.map((h) => {
           const hPct = (h.impactBps / max) * 100
+          const legLabel = `Leg ${h.step}, ${h.impactBps} basis points`
           return (
-            <div key={h.step} className="hop-chart__col">
+            <div key={h.step} className="hop-chart__col" aria-label={legLabel}>
               <div className="hop-chart__bar-wrap">
                 <div
                   className={`hop-chart__bar hop-chart__bar--${h.step % 2 === 1 ? 'a' : 'b'}`}
                   style={{ height: `${Math.max(22, hPct)}%` }}
                   title={`${h.impactBps} bps`}
+                  role="presentation"
                 />
               </div>
               <span className="hop-chart__bps tabular mono">{h.impactBps}</span>

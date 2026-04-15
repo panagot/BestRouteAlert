@@ -5,6 +5,17 @@ import { SurfacePreview, type SurfaceMode } from './components/SurfacePreview'
 import './App.css'
 
 const SURFACE_STORAGE_KEY = 'omnireceipt-surface-preview'
+const SAMPLE_STORAGE_KEY = 'omnireceipt-active-sample'
+
+function readStoredSampleKey(): string | null {
+  try {
+    const raw = sessionStorage.getItem(SAMPLE_STORAGE_KEY)
+    if (raw && EXAMPLES.some((e) => e.key === raw)) return raw
+  } catch {
+    /* ignore */
+  }
+  return null
+}
 
 function readStoredSurface(): SurfaceMode {
   try {
@@ -18,13 +29,17 @@ function readStoredSurface(): SurfaceMode {
 
 export default function App() {
   const mainRef = useRef<HTMLElement>(null)
-  const [activeKey, setActiveKey] = useState(EXAMPLES[0]?.key ?? 'rfq')
+  const [activeKey, setActiveKey] = useState(() => {
+    if (!EXAMPLES.length) return ''
+    return readStoredSampleKey() ?? EXAMPLES[0]!.key
+  })
   const [surfaceMode, setSurfaceMode] = useState<SurfaceMode>(() =>
     typeof window === 'undefined' ? 'web' : readStoredSurface(),
   )
 
   const receipt = useMemo(() => {
-    return EXAMPLES.find((e) => e.key === activeKey)?.receipt ?? EXAMPLES[0]!.receipt
+    if (!EXAMPLES.length) return null
+    return EXAMPLES.find((e) => e.key === activeKey)?.receipt ?? EXAMPLES[0]!.receipt ?? null
   }, [activeKey])
 
   const shareBase =
@@ -39,12 +54,20 @@ export default function App() {
   }, [surfaceMode])
 
   useEffect(() => {
+    try {
+      sessionStorage.setItem(SAMPLE_STORAGE_KEY, activeKey)
+    } catch {
+      /* ignore */
+    }
+  }, [activeKey])
+
+  useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (!e.altKey || e.defaultPrevented) return
       const el = e.target as HTMLElement | null
       if (el?.closest('input, textarea, select, [contenteditable="true"]')) return
-      const n = e.key === '1' ? 0 : e.key === '2' ? 1 : -1
-      if (n < 0) return
+      if (e.key < '1' || e.key > '9') return
+      const n = Number(e.key) - 1
       const ex = EXAMPLES[n]
       if (!ex) return
       e.preventDefault()
@@ -53,6 +76,16 @@ export default function App() {
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [])
+
+  if (!EXAMPLES.length || !receipt) {
+    return (
+      <div className="app-frame app-frame--empty">
+        <main className="app-main app-main--empty" id="main-content" tabIndex={-1}>
+          <p className="app-empty__msg">No sample receipts are configured.</p>
+        </main>
+      </div>
+    )
+  }
 
   return (
     <div className="app-frame">
