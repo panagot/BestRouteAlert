@@ -824,12 +824,36 @@ body {
   z-index: 1;
 }
 
+.receipt-doc__chrome-tonlink {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.receipt-doc__chrome-tonlink:hover .receipt-doc__chrome-mark {
+  filter: drop-shadow(0 2px 6px rgba(77, 184, 255, 0.45));
+  opacity: 0.95;
+}
+
+.receipt-doc__chrome-tonlink:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
 .receipt-doc__chrome-mark {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  filter: drop-shadow(0 2px 5px rgba(37, 99, 235, 0.22));
+  line-height: 0;
+  filter: drop-shadow(0 1px 3px rgba(15, 23, 42, 0.12));
+}
+
+.receipt-doc__chrome-mark svg {
+  display: block;
 }
 
 .receipt-doc__chrome-left {

@@ -1,4 +1,4 @@
-import { useEffect, useId, useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { RouteReceipt } from '../types/receipt'
 import { useMediaQuery } from '../hooks/useMediaQuery'
 import { ProofAttestation, TransactionFactsGrid, WhyRouteWon } from './ReceiptProduction'
@@ -91,7 +91,6 @@ export function ReceiptPanel({
     | { target: 'link' | 'summary'; status: 'success' }
     | { target: 'link' | 'summary'; status: 'error' }
   const [copyFeedback, setCopyFeedback] = useState<CopyFeedback>(null)
-  const chromeGradId = useId().replace(/:/g, '')
 
   useEffect(() => {
     setCopyFeedback(null)
@@ -132,23 +131,26 @@ export function ReceiptPanel({
     >
       <header className="receipt-doc__chrome">
         <div className="receipt-doc__chrome-left">
-          <span className="receipt-doc__chrome-mark" aria-hidden>
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-              <rect x="3" y="2" width="16" height="18" rx="3" fill={`url(#${chromeGradId})`} />
-              <path
-                d="M7 7h8M7 10.5h6M7 14h7"
-                stroke="rgba(255,255,255,0.92)"
-                strokeWidth="1.3"
-                strokeLinecap="round"
-              />
-              <defs>
-                <linearGradient id={chromeGradId} x1="5" y1="2" x2="17" y2="20" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#2563eb" />
-                  <stop offset="1" stopColor="#6366f1" />
-                </linearGradient>
-              </defs>
-            </svg>
-          </span>
+          <a
+            href="https://ton.org/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="receipt-doc__chrome-tonlink"
+            aria-label="TON — The Open Network (opens in new tab)"
+          >
+            <span className="receipt-doc__chrome-mark" aria-hidden>
+              {/*
+                TON mark geometry after Simple Icons (CC0): https://github.com/simple-icons/simple-icons
+                Brand color: https://ton.org/brand-assets
+              */}
+              <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img">
+                <path
+                  fill="#4DB8FF"
+                  d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zM7.902 6.697h8.196c1.505 0 2.462 1.628 1.705 2.94l-5.059 8.765a.86.86 0 0 1-1.488 0L6.199 9.637c-.758-1.314.197-2.94 1.703-2.94zm4.844 1.496v7.58l1.102-2.128 2.656-4.756a.465.465 0 0 0-.408-.696h-3.35zM7.9 8.195a.464.464 0 0 0-.408.694l2.658 4.754 1.102 2.13V8.195H7.9z"
+                />
+              </svg>
+            </span>
+          </a>
           <span className="receipt-doc__issuer">Omniston aggregation</span>
           <span className="receipt-doc__chrome-sep" aria-hidden>
             ·
