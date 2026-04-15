@@ -1,4 +1,5 @@
 import type { RouteReceipt } from '../types/receipt'
+import { formatReceiptDate } from '../utils/receiptDisplay'
 
 function IconWallet() {
   return (
@@ -48,6 +49,15 @@ function IconReferral() {
       <circle cx="6" cy="6" r="2.5" stroke="currentColor" strokeWidth="1.4" />
       <circle cx="14" cy="14" r="2.5" stroke="currentColor" strokeWidth="1.4" />
       <path d="M8 12l4-4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function IconClock() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
+      <circle cx="10" cy="10" r="7.5" stroke="currentColor" strokeWidth="1.4" />
+      <path d="M10 6.2V10l3.2 2.1" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
@@ -105,6 +115,12 @@ export function TransactionFactsGrid({ receipt }: { receipt: RouteReceipt }) {
       hint: 'TON mainnet height',
     },
     {
+      icon: <IconClock />,
+      label: 'Settled',
+      value: formatReceiptDate(receipt.createdAtIso),
+      hint: 'Mock inclusion time (UTC)',
+    },
+    {
       icon: <IconSlippage />,
       label: 'Slippage',
       value: slip,
@@ -156,6 +172,37 @@ export function TransactionFactsGrid({ receipt }: { receipt: RouteReceipt }) {
           </div>
         ))}
       </div>
+    </section>
+  )
+}
+
+export function OmnistonHighlightCard({ receipt }: { receipt: RouteReceipt }) {
+  const n = receipt.liquiditySourcesCompared ?? 7
+  const pct = receipt.savingsVsBestSingleVenueBps / 100
+  const rfqWon = receipt.comparison.winner === 'rfq'
+  const sym = receipt.received.symbol
+
+  return (
+    <section className="omni-highlight" aria-labelledby="omni-highlight-heading">
+      <h2 id="omni-highlight-heading" className="omni-highlight__title">
+        What Omniston did on this swap
+      </h2>
+      <ul className="omni-highlight__list">
+        <li>
+          <strong>{n} liquidity sources</strong> (AMM pools + RFQ solvers) were evaluated for this size; Omniston
+          composed the net-winning package into <strong>one</strong> settlement on TON.
+        </li>
+        <li>
+          You kept about <strong>+{pct.toFixed(2)}% more {sym}</strong> after fees vs the reference baseline —{' '}
+          <strong>real-time competition</strong> between venues, not a single-pool shortcut.
+        </li>
+        <li>
+          <strong>{rfqWon ? 'RFQ vs AMM:' : 'AMM-only win:'}</strong>{' '}
+          {rfqWon
+            ? 'a solver quote tightened at least one leg versus what visible pool liquidity alone would have given.'
+            : 'chained AMM depth still beat the shallow “direct pair” baseline Omniston simulated for transparency.'}
+        </li>
+      </ul>
     </section>
   )
 }

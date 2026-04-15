@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react'
 import type { RouteReceipt } from '../types/receipt'
 import { useMediaQuery } from '../hooks/useMediaQuery'
-import { ProofAttestation, TransactionFactsGrid, WhyRouteWon } from './ReceiptProduction'
+import {
+  OmnistonHighlightCard,
+  ProofAttestation,
+  TransactionFactsGrid,
+  WhyRouteWon,
+} from './ReceiptProduction'
 import { buildReceiptTextSummary } from '../utils/receiptTextSummary'
 import {
   ChainLinkMotif,
@@ -174,9 +179,9 @@ export function ReceiptPanel({
           <ChainLinkMotif />
           <span
             className="receipt-doc__trust-badge"
-            title="Production: tie to signed quote bundle + explorer tx. This badge is illustrative only."
+            title="Production: tie to signed quote bundle + explorer tx. Illustrative only in this prototype."
           >
-            Verified path (demo)
+            Omniston routing (demo)
           </span>
           <span className="receipt-doc__status" title="Demo only — not a live settlement flag">
             <span className="receipt-doc__status-dot" aria-hidden />
@@ -243,9 +248,12 @@ export function ReceiptPanel({
           <span className="receipt-doc__intro-copy">
             Everything below is a <strong>static mock</strong> shaped like a production receipt.{' '}
             <strong>TON</strong> means <strong>The Open Network</strong> — not the Tron blockchain. Omniston-style
-            routing compares venues and solvers; this layout is how that story could look after settlement.
+            routing compares venues and solvers; this layout is how that story could look after settlement.{' '}
+            <strong>Independent UI exploration</strong> — not an official STON.fi or Omniston product.
           </span>
         </p>
+
+        <OmnistonHighlightCard receipt={receipt} />
 
         <TransactionFactsGrid receipt={receipt} />
 
@@ -255,7 +263,10 @@ export function ReceiptPanel({
           <RouteFlowVisual receipt={receipt} />
           <div className="receipt-doc__viz-stack">
             <div className="receipt-doc__savings-wrap">
-              <SavingsComparisonVisual savingsBps={receipt.savingsVsBestSingleVenueBps} />
+              <SavingsComparisonVisual
+                savingsBps={receipt.savingsVsBestSingleVenueBps}
+                outSymbol={receipt.received.symbol}
+              />
             </div>
             <div className="receipt-doc__metric-strip">
               <div className="metric-pill" title="Implied cross after this execution (incl. route costs in mock)">
@@ -289,7 +300,9 @@ export function ReceiptPanel({
         <section className="receipt-doc__section" aria-label="Quote comparison">
           <h2 className="receipt-doc__section-title">Executed path vs. reference</h2>
           <p className="receipt-doc__section-lead">
-            The <strong>executed</strong> card is what you got. The <strong>baseline</strong> is a deliberate simpler alternative so “savings” has a story, not a magic number.
+            Omniston’s job is to <strong>aggregate and compete</strong> liquidity (RFQ solvers + AMM books). The{' '}
+            <strong>executed</strong> card is what you got; the <strong>baseline</strong> is a deliberate simpler path
+            so “savings” is explainable in support and reviews — not a magic number.
           </p>
           <div className="quote-pair quote-pair--with-vs">
             <div className="quote-pair__card quote-pair__card--primary">

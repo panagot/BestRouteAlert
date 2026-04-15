@@ -56,4 +56,6 @@ export interface RouteReceipt {
   baselineOutputAmount?: string
   /** Placeholder for future signed receipt / attestation id. */
   signedReceiptPlaceholder?: string
+  /** Mock: how many AMM/RFQ surfaces Omniston compared before composing this route. */
+  liquiditySourcesCompared?: number
 }

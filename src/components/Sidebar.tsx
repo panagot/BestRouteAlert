@@ -100,7 +100,7 @@ export function Sidebar({
         </a>
         <div className="app-sidebar__masthead-text">
           <h1 className="app-sidebar__product">OmniReceipt</h1>
-          <p className="app-sidebar__product-sub">Transparency layer for Omniston on TON</p>
+          <p className="app-sidebar__product-sub">The receipt layer for Omniston · TON</p>
         </div>
         <span className="app-sidebar__pill">UI prototype</span>
       </header>
@@ -236,7 +236,10 @@ export function Sidebar({
       </details>
 
       <footer className="app-sidebar__disclaimer">
-        <p>Educational prototype (Omniston-style on TON). Not an official STON.fi product.</p>
+        <p>
+          <strong>Independent exploration</strong> of how Omniston-class routing could be explained to users — not an
+          official STON.fi, Omniston, or TON Foundation product. Static mock data only.
+        </p>
       </footer>
     </aside>
   )

@@ -1,6 +1,6 @@
 # OmniReceipt (prototype)
 
-UI prototype for **post-trade transparency** on **TON (The Open Network)** — *not* the Tron blockchain. After an **Omniston-style** aggregated swap, users see a **best-route receipt**: settlement snapshot, composed path, savings vs baseline, legs, and share/copy actions. Positioning: **transparency layer for Omniston** (wallets and mini-apps could embed the same layout).
+**OmniReceipt** — transparent **Omniston** routes on **TON (The Open Network)** (*not* the Tron blockchain). Positioning: **the missing receipt layer** that makes multi-venue aggregation and RFQ vs AMM competition legible after settlement. Wallets and mini-apps could embed the same layout. This repo is a **static UI prototype** (settlement snapshot, route, savings vs baseline, share/copy).
 
 **Scope:** static **React + Vite** app with **mock** receipts only (no live Omniston SDK, signing, or storage). Includes **three preview surfaces**: full **web** disclosure doc, **wallet** sheet layout, and **Telegram** mini-app style (each is a different UI, not just a frame).
 

@@ -6,9 +6,14 @@ export function buildReceiptTextSummary(receipt: RouteReceipt, shareUrl: string)
     receipt.slippageBps != null ? `${(receipt.slippageBps / 100).toFixed(2)}% slippage max` : null
   const gas =
     receipt.totalGas != null ? `${receipt.totalGas.amount} ${receipt.totalGas.symbol} fee` : null
+  const sources =
+    receipt.liquiditySourcesCompared != null
+      ? `Liquidity sources compared (mock): ${receipt.liquiditySourcesCompared}`
+      : null
   const lines = [
     `OmniReceipt · ${receipt.spent.symbol} → ${receipt.received.symbol}`,
     `Network: ${receipt.network} (TON = The Open Network, not Tron) · Omniston-style route disclosure`,
+    sources,
     `Ref #${receipt.shortId}`,
     receipt.userAddressTruncated ? `Wallet: ${receipt.userAddressTruncated}` : null,
     receipt.blockHeight != null ? `Block: ${receipt.blockHeight}` : null,

@@ -1,6 +1,12 @@
 /** Horizontal bar comparison: baseline vs executed output (explorer-style). */
 
-export function SavingsComparisonVisual({ savingsBps }: { savingsBps: number }) {
+export function SavingsComparisonVisual({
+  savingsBps,
+  outSymbol,
+}: {
+  savingsBps: number
+  outSymbol: string
+}) {
   const pct = savingsBps / 100
   const executedWidth = Math.min(100, 72 + Math.min(pct * 8, 28))
 
@@ -30,7 +36,9 @@ export function SavingsComparisonVisual({ savingsBps }: { savingsBps: number }) 
         </div>
       </div>
       <p className="savings-viz__caption">
-        Bars are schematic. Production would tie this to stored quote math and your chosen baseline (e.g. best single pool vs. full router simulation).
+        You kept about <strong>+{pct.toFixed(2)}% more {outSymbol}</strong> vs the reference baseline in this mock —
+        the kind of outcome Omniston surfaces when multi-venue routing beats a single obvious quote. Bars are schematic;
+        production would tie to stored quote math.
       </p>
     </div>
   )

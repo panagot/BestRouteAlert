@@ -3,6 +3,7 @@ import type { RouteReceipt } from '../types/receipt'
 export const EXAMPLE_RFQ_WINS: RouteReceipt = {
   id: 'ex_rfq_7k2m',
   shortId: '7K2M',
+  liquiditySourcesCompared: 8,
   createdAtIso: '2026-04-15T14:32:09.000Z',
   network: 'TON mainnet',
   txHash: 'EQCz…9f2a',
@@ -61,6 +62,7 @@ export const EXAMPLE_RFQ_WINS: RouteReceipt = {
 export const EXAMPLE_AMM_ONLY: RouteReceipt = {
   id: 'ex_amm_4p9q',
   shortId: '4P9Q',
+  liquiditySourcesCompared: 6,
   createdAtIso: '2026-04-14T09:18:44.000Z',
   network: 'TON mainnet',
   txHash: 'EQD1…3c81',
@@ -120,6 +122,7 @@ export const EXAMPLE_AMM_ONLY: RouteReceipt = {
 export const EXAMPLE_DEEP_ROUTE: RouteReceipt = {
   id: 'ex_deep_9x3k',
   shortId: '9X3K',
+  liquiditySourcesCompared: 9,
   createdAtIso: '2026-04-13T16:42:01.000Z',
   network: 'TON mainnet',
   txHash: 'EQF8…2a91',

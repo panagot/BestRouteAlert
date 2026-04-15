@@ -12,13 +12,13 @@
   </defs>
   <rect width="1200" height="630" fill="url(#ogBg)" />
   <circle cx="1040" cy="120" r="200" fill="url(#ogOrb)" opacity="0.2" />
-  <text x="72" y="248" fill="#0f172a" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="76" font-weight="800" letter-spacing="-0.03em">
+  <text x="72" y="248" fill="#0f172a" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="72" font-weight="800" letter-spacing="-0.03em">
     OmniReceipt
   </text>
-  <text x="72" y="318" fill="#475569" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="28" font-weight="600">
-    Omniston routes on TON · The Open Network
+  <text x="72" y="318" fill="#1d4ed8" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="28" font-weight="700">
+    Transparent Omniston routes on TON
   </text>
-  <text x="72" y="372" fill="#64748b" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="21" font-weight="500">
-    Not the Tron blockchain — transparency for aggregated swaps (prototype)
+  <text x="72" y="372" fill="#475569" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="22" font-weight="500">
+    The Open Network — not Tron · DEX + RFQ · shareable disclosure (prototype)
   </text>
 </svg>
