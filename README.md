@@ -22,6 +22,16 @@ Open the URL shown in the terminal (usually `http://localhost:5173`).
 | `npm run build`| Typecheck + production build → `dist` |
 | `npm run preview` | Serve `dist` locally |
 | `npm run lint` | ESLint                               |
+| `npm run typecheck` | TypeScript only (`tsc -b`) |
+
+## Shareable preview URL
+
+The address bar stays in sync with the UI (via `history.replaceState`). Query params:
+
+- **`sample`** — mock receipt id: `rfq` or `amm` (matches sidebar samples).
+- **`surface`** — `web`, `wallet`, or `telegram`.
+
+Example: `https://yoursite.example/?sample=amm&surface=wallet`
 
 ## Deploy on Vercel
 
@@ -36,6 +46,7 @@ Open the URL shown in the terminal (usually `http://localhost:5173`).
 1. **Preview surface:** Switch **Web** / **Wallet** / **Telegram** above the receipt.
 2. **Samples:** Use the sidebar or **Alt+1** / **Alt+2** to switch mock scenarios.
 3. **Receipt:** Copy link / plain text; open explorer (demo links); print (sidebar hidden, receipt-focused).
+4. **Deep link:** Open with `?sample=…&surface=…` (see above); refresh keeps the same scenario via session storage if params are omitted.
 
 ## Product intent
 

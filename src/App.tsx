@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { EXAMPLES } from './data/examples'
 import { Sidebar } from './components/Sidebar'
 import { SurfacePreview, type SurfaceMode } from './components/SurfacePreview'
+import { readPreviewQuery, syncPreviewToUrl } from './utils/previewQuery'
 import './App.css'
 
 const SURFACE_STORAGE_KEY = 'omnireceipt-surface-preview'
@@ -31,11 +32,17 @@ export default function App() {
   const mainRef = useRef<HTMLElement>(null)
   const [activeKey, setActiveKey] = useState(() => {
     if (!EXAMPLES.length) return ''
+    if (typeof window === 'undefined') return EXAMPLES[0]!.key
+    const { sample } = readPreviewQuery(window.location.search)
+    if (sample && EXAMPLES.some((e) => e.key === sample)) return sample
     return readStoredSampleKey() ?? EXAMPLES[0]!.key
   })
-  const [surfaceMode, setSurfaceMode] = useState<SurfaceMode>(() =>
-    typeof window === 'undefined' ? 'web' : readStoredSurface(),
-  )
+  const [surfaceMode, setSurfaceMode] = useState<SurfaceMode>(() => {
+    if (typeof window === 'undefined') return 'web'
+    const { surface } = readPreviewQuery(window.location.search)
+    if (surface) return surface
+    return readStoredSurface()
+  })
 
   const receipt = useMemo(() => {
     if (!EXAMPLES.length) return null
@@ -60,6 +67,11 @@ export default function App() {
       /* ignore */
     }
   }, [activeKey])
+
+  useEffect(() => {
+    if (!EXAMPLES.length || !activeKey) return
+    syncPreviewToUrl(activeKey, surfaceMode)
+  }, [activeKey, surfaceMode])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
