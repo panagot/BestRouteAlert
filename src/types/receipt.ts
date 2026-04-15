@@ -13,6 +13,10 @@ export interface RouteHop {
   legGasNative?: string
   /** Optional educational blurb (e.g. expandable row in web legs table). */
   legNote?: string
+  /** Mock quote latency for demo tooltips (ms). */
+  quoteLatencyMs?: number
+  /** One-line role of this leg in the composed route (demo). */
+  legRole?: string
 }
 
 export interface QuoteComparison {

@@ -1,12 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { EXAMPLES } from './data/examples'
 import { Sidebar } from './components/Sidebar'
+import { ShortcutsDialog } from './components/ShortcutsDialog'
 import { SurfacePreview, type SurfaceMode } from './components/SurfacePreview'
+import { buildPreviewShareUrl } from './utils/shareUrl'
 import { readPreviewQuery, syncPreviewToUrl } from './utils/previewQuery'
 import './App.css'
 
 const SURFACE_STORAGE_KEY = 'omnireceipt-surface-preview'
 const SAMPLE_STORAGE_KEY = 'omnireceipt-active-sample'
+const HINT_DISMISSED_KEY = 'omnireceipt-hint-dismissed'
 
 function readStoredSampleKey(): string | null {
   try {
@@ -49,8 +52,19 @@ export default function App() {
     return EXAMPLES.find((e) => e.key === activeKey)?.receipt ?? EXAMPLES[0]!.receipt ?? null
   }, [activeKey])
 
-  const shareBase =
-    typeof window !== 'undefined' ? window.location.origin : 'https://receipt.example.com'
+  const previewShareUrl = useMemo(() => {
+    if (typeof window === 'undefined') return ''
+    return buildPreviewShareUrl(window.location.origin, window.location.pathname || '/', activeKey, surfaceMode)
+  }, [activeKey, surfaceMode])
+
+  const [shortcutsOpen, setShortcutsOpen] = useState(false)
+  const [hintDismissed, setHintDismissed] = useState(() => {
+    try {
+      return localStorage.getItem(HINT_DISMISSED_KEY) === '1'
+    } catch {
+      return false
+    }
+  })
 
   useEffect(() => {
     try {
@@ -75,15 +89,21 @@ export default function App() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (!e.altKey || e.defaultPrevented) return
+      if (e.defaultPrevented) return
       const el = e.target as HTMLElement | null
       if (el?.closest('input, textarea, select, [contenteditable="true"]')) return
-      if (e.key < '1' || e.key > '9') return
-      const n = Number(e.key) - 1
-      const ex = EXAMPLES[n]
-      if (!ex) return
-      e.preventDefault()
-      setActiveKey(ex.key)
+      if (e.altKey && e.key >= '1' && e.key <= '9') {
+        const n = Number(e.key) - 1
+        const ex = EXAMPLES[n]
+        if (!ex) return
+        e.preventDefault()
+        setActiveKey(ex.key)
+        return
+      }
+      if (e.key === '?' || (e.shiftKey && e.key === '/')) {
+        e.preventDefault()
+        setShortcutsOpen(true)
+      }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
@@ -97,6 +117,15 @@ export default function App() {
         </main>
       </div>
     )
+  }
+
+  const dismissHint = () => {
+    setHintDismissed(true)
+    try {
+      localStorage.setItem(HINT_DISMISSED_KEY, '1')
+    } catch {
+      /* ignore */
+    }
   }
 
   return (
@@ -129,15 +158,47 @@ export default function App() {
           aria-label="Receipt preview"
         >
           <div className="app-stage__content">
+            <header className="app-hero">
+              <p className="app-hero__tagline">
+                Making Omniston&apos;s intelligent routing <strong>visible</strong> and{' '}
+                <strong>trustworthy</strong>.
+              </p>
+              <p className="app-hero__why">
+                <strong>Why TON:</strong> aggregated swaps should be as easy to <strong>audit</strong> as they are to
+                sign — a receipt layer closes the loop for users, support, and partners embedding Omniston.
+              </p>
+              <p className="app-hero__actions">
+                <button type="button" className="app-hero__shortcut-btn" onClick={() => setShortcutsOpen(true)}>
+                  Keyboard shortcuts <span className="app-hero__kbd">?</span>
+                </button>
+              </p>
+            </header>
+            {!hintDismissed && (
+              <aside className="app-demo-hint" role="status">
+                <p className="app-demo-hint__text">
+                  <strong>Demo tip:</strong> use <kbd className="app-demo-hint__kbd">Alt</kbd> +{' '}
+                  <kbd className="app-demo-hint__kbd">1</kbd>–<kbd className="app-demo-hint__kbd">3</kbd> to switch
+                  scenarios (same order as the sidebar). Press <kbd className="app-demo-hint__kbd">?</kbd> anytime for
+                  the full list.
+                </p>
+                <button type="button" className="app-demo-hint__dismiss" onClick={dismissHint}>
+                  Got it
+                </button>
+              </aside>
+            )}
             <SurfacePreview
               mode={surfaceMode}
               onModeChange={setSurfaceMode}
               receipt={receipt}
-              shareBaseUrl={shareBase}
+              previewShareUrl={previewShareUrl}
+              sampleChoices={EXAMPLES.map((e) => ({ key: e.key, label: e.label }))}
+              activeSampleKey={activeKey}
+              onSampleChange={setActiveKey}
             />
           </div>
         </main>
       </div>
+      <ShortcutsDialog open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
     </div>
   )
 }

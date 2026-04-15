@@ -36,6 +36,8 @@ export const EXAMPLE_RFQ_WINS: RouteReceipt = {
       venueKind: 'amm',
       impactBps: 12,
       legGasNative: '0.086 TON',
+      quoteLatencyMs: 420,
+      legRole: 'Exit meme exposure into native TON using deep STON.fi v2 liquidity.',
     },
     {
       step: 2,
@@ -47,6 +49,8 @@ export const EXAMPLE_RFQ_WINS: RouteReceipt = {
       venueKind: 'rfq',
       impactBps: 4,
       legGasNative: '0.128 TON',
+      quoteLatencyMs: 1180,
+      legRole: 'Solver package for the liquid staking leg — beats visible AMM continuation at this size.',
       legNote:
         'RFQ solver quoted a tighter TON→tsTON leg than the continuation you would get from pool mid-price alone at this size.',
     },
@@ -95,6 +99,8 @@ export const EXAMPLE_AMM_ONLY: RouteReceipt = {
       venueKind: 'amm',
       impactBps: 9,
       legGasNative: '0.091 TON',
+      quoteLatencyMs: 380,
+      legRole: 'On-ramp stables into TON on the book with the tightest spread for this notional.',
       legNote:
         'First hop exits stables into native TON where book depth is best — avoids paying the wide spread on a thin USDT/STON leg.',
     },
@@ -108,6 +114,8 @@ export const EXAMPLE_AMM_ONLY: RouteReceipt = {
       venueKind: 'amm',
       impactBps: 6,
       legGasNative: '0.087 TON',
+      quoteLatencyMs: 290,
+      legRole: 'Second hop captures STON on the deepest TON/STON pool instead of a thin direct pair.',
     },
   ],
   comparison: {
@@ -155,6 +163,8 @@ export const EXAMPLE_DEEP_ROUTE: RouteReceipt = {
       venueKind: 'amm',
       impactBps: 11,
       legGasNative: '0.094 TON',
+      quoteLatencyMs: 410,
+      legRole: 'Large stable → TON leg — start on the deepest book to minimize first-hop slip.',
       legNote:
         'Wide USDT book on DeDust at this size; Omniston used it as the cheapest on-ramp into native TON for the next hop.',
     },
@@ -168,6 +178,8 @@ export const EXAMPLE_DEEP_ROUTE: RouteReceipt = {
       venueKind: 'amm',
       impactBps: 14,
       legGasNative: '0.098 TON',
+      quoteLatencyMs: 350,
+      legRole: 'Intermediate meme leg to unlock a better exit package than direct USDT→tsTON.',
       legNote:
         'GEMSTON/TON carried better depth than routing straight to tsTON here — intermediate hop reduces cumulative price impact.',
     },
@@ -181,6 +193,8 @@ export const EXAMPLE_DEEP_ROUTE: RouteReceipt = {
       venueKind: 'rfq',
       impactBps: 5,
       legGasNative: '0.075 TON',
+      quoteLatencyMs: 1420,
+      legRole: 'RFQ exit on GEMSTON→tsTON — solver beats the pool continuation the UI would naively show.',
       legNote:
         'Solver beat the visible pool continuation on GEMSTON→tsTON; RFQ leg is where multi-venue aggregation often wins.',
     },

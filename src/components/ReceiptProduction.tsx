@@ -62,6 +62,20 @@ function IconClock() {
   )
 }
 
+function IconTx() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
+      <path
+        d="M4.5 6.5h11M4.5 10h11M4.5 13.5h7"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+      />
+      <rect x="2.5" y="3.5" width="15" height="13" rx="2" stroke="currentColor" strokeWidth="1.4" />
+    </svg>
+  )
+}
+
 function IconLightbulb() {
   return (
     <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden>
@@ -94,6 +108,11 @@ function IconLockProof() {
 export function TransactionFactsGrid({ receipt }: { receipt: RouteReceipt }) {
   const slip =
     receipt.slippageBps != null ? `${(receipt.slippageBps / 100).toFixed(2)}% max` : '—'
+  const legGasParts = receipt.hops
+    .map((h) => h.legGasNative)
+    .filter(Boolean) as string[]
+  const gasBreakdown =
+    legGasParts.length > 0 ? `Per leg (est.): ${legGasParts.join(' + ')}` : undefined
   const gas =
     receipt.totalGas != null
       ? `${receipt.totalGas.amount} ${receipt.totalGas.symbol}`
@@ -106,6 +125,12 @@ export function TransactionFactsGrid({ receipt }: { receipt: RouteReceipt }) {
       label: 'Wallet',
       value: receipt.userAddressTruncated ?? '—',
       hint: receipt.walletLabel,
+    },
+    {
+      icon: <IconTx />,
+      label: 'Transaction',
+      value: receipt.txHash,
+      hint: 'Display hash · open explorer below for full reference',
     },
     {
       icon: <IconBlock />,
@@ -130,7 +155,7 @@ export function TransactionFactsGrid({ receipt }: { receipt: RouteReceipt }) {
       icon: <IconGas />,
       label: 'Network fee',
       value: gas,
-      hint: 'Paid with native TON for this tx',
+      hint: gasBreakdown ? `${gasBreakdown} · total above` : 'Paid with native TON for this tx',
     },
     {
       icon: <IconReferral />,

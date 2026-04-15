@@ -16,17 +16,52 @@ export function SurfacePreview({
   mode,
   onModeChange,
   receipt,
-  shareBaseUrl,
+  previewShareUrl,
+  sampleChoices,
+  activeSampleKey,
+  onSampleChange,
 }: {
   mode: SurfaceMode
   onModeChange: (m: SurfaceMode) => void
   receipt: RouteReceipt
-  shareBaseUrl: string
+  previewShareUrl: string
+  sampleChoices: { key: string; label: string }[]
+  activeSampleKey: string
+  onSampleChange: (key: string) => void
 }) {
   const segmentRefs = useRef<(HTMLButtonElement | null)[]>([])
 
   return (
     <div className="surface-preview">
+      {sampleChoices.length > 1 && (
+        <div
+          className="surface-preview__toolbar surface-preview__toolbar--samples"
+          role="radiogroup"
+          aria-label="Sample receipt scenarios"
+        >
+          <p className="surface-preview__legend">
+            <span className="surface-preview__legend-title">Sample scenario</span>
+            <span className="surface-preview__legend-note">
+              Three contrasting mocks — RFQ vs AMM vs deep multi-hop (also in sidebar; Alt+1…3)
+            </span>
+          </p>
+          <div className="surface-preview__samples">
+            {sampleChoices.map((s) => (
+              <button
+                key={s.key}
+                type="button"
+                role="radio"
+                aria-checked={activeSampleKey === s.key}
+                className={`surface-preview__sample ${activeSampleKey === s.key ? 'surface-preview__sample--active' : ''}`}
+                onClick={() => onSampleChange(s.key)}
+              >
+                <span className="surface-preview__sample-label">{s.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div
         className="surface-preview__toolbar"
         role="radiogroup"
@@ -97,7 +132,13 @@ export function SurfacePreview({
               <span className="surface-preview__web-url">receipt.ton.example · Omniston</span>
             </div>
             <div className="surface-preview__web-body">
-              <ReceiptPanel receipt={receipt} shareBaseUrl={shareBaseUrl} />
+              <ReceiptPanel
+                receipt={receipt}
+                previewShareUrl={previewShareUrl}
+                sampleMeta={sampleChoices}
+                activeSampleKey={activeSampleKey}
+                onSampleChange={onSampleChange}
+              />
             </div>
           </div>
         )}
@@ -129,7 +170,7 @@ export function SurfacePreview({
               </div>
               <div className="device-shell__screen">
                 <div className="device-shell__scroll">
-                  <WalletReceiptSheet receipt={receipt} shareBaseUrl={shareBaseUrl} />
+                  <WalletReceiptSheet receipt={receipt} previewShareUrl={previewShareUrl} />
                 </div>
               </div>
               <div className="device-shell__home" aria-hidden />
@@ -160,7 +201,7 @@ export function SurfacePreview({
               </div>
               <div className="device-shell__screen device-shell__screen--tg">
                 <div className="device-shell__scroll">
-                  <TelegramReceiptMiniApp receipt={receipt} shareBaseUrl={shareBaseUrl} />
+                  <TelegramReceiptMiniApp receipt={receipt} previewShareUrl={previewShareUrl} />
                 </div>
               </div>
               <div className="device-shell__home" aria-hidden />

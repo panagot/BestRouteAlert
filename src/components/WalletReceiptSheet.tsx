@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import type { RouteReceipt } from '../types/receipt'
 import { formatReceiptDate } from '../utils/receiptDisplay'
 import { buildReceiptTextSummary } from '../utils/receiptTextSummary'
-import { buildReceiptShareUrl } from '../utils/shareUrl'
 import { TokenGlyph } from './TokenGlyph'
 import { VenueBadge } from './VenueBadge'
 
@@ -17,12 +16,12 @@ function Row({ label, value, mono }: { label: string; value: string; mono?: bool
 
 export function WalletReceiptSheet({
   receipt,
-  shareBaseUrl,
+  previewShareUrl,
 }: {
   receipt: RouteReceipt
-  shareBaseUrl: string
+  previewShareUrl: string
 }) {
-  const shareUrl = buildReceiptShareUrl(shareBaseUrl, receipt.id)
+  const shareUrl = previewShareUrl
   const pct = receipt.savingsVsBestSingleVenueBps / 100
   const slip =
     receipt.slippageBps != null ? `${(receipt.slippageBps / 100).toFixed(2)}%` : '—'

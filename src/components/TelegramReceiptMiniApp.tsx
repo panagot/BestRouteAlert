@@ -2,17 +2,16 @@ import { useEffect, useState } from 'react'
 import type { RouteReceipt } from '../types/receipt'
 import { formatReceiptDate } from '../utils/receiptDisplay'
 import { buildReceiptTextSummary } from '../utils/receiptTextSummary'
-import { buildReceiptShareUrl } from '../utils/shareUrl'
 import { VenueBadge } from './VenueBadge'
 
 export function TelegramReceiptMiniApp({
   receipt,
-  shareBaseUrl,
+  previewShareUrl,
 }: {
   receipt: RouteReceipt
-  shareBaseUrl: string
+  previewShareUrl: string
 }) {
-  const shareUrl = buildReceiptShareUrl(shareBaseUrl, receipt.id)
+  const shareUrl = previewShareUrl
   const pct = receipt.savingsVsBestSingleVenueBps / 100
   const [flash, setFlash] = useState<null | string>(null)
 
