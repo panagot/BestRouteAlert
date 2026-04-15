@@ -279,6 +279,12 @@ body {
   font-weight: 600;
 }
 
+.app-sidebar__tagline-ton {
+  font-weight: 800;
+  color: #1d4ed8;
+  letter-spacing: 0.02em;
+}
+
 .app-sidebar__highlights {
   margin: 0;
 }
@@ -906,6 +912,18 @@ body {
   flex-wrap: wrap;
 }
 
+.receipt-doc__trust-badge {
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #4338ca;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(67, 56, 202, 0.22);
+  border-radius: 999px;
+  padding: 0.24rem 0.55rem;
+}
+
 .receipt-doc__status {
   display: inline-flex;
   align-items: center;
@@ -1443,6 +1461,51 @@ body {
 .legs-table tbody tr:hover td,
 .legs-table tbody tr:hover th {
   background: rgba(248, 250, 252, 0.8);
+}
+
+.legs-table tbody tr.legs-table__sub:hover td,
+.legs-table tbody tr.legs-table__sub:hover th {
+  background: transparent;
+}
+
+.legs-table__sub-cell {
+  padding: 0 1rem 0.65rem !important;
+  background: rgba(248, 250, 252, 0.92);
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+
+.legs-leg-details {
+  margin: 0;
+}
+
+.legs-leg-details__summary {
+  cursor: pointer;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--doc-muted);
+  list-style: none;
+}
+
+.legs-leg-details__summary::-webkit-details-marker {
+  display: none;
+}
+
+.legs-leg-details__summary:focus {
+  outline: none;
+}
+
+.legs-leg-details__summary:focus-visible {
+  border-radius: 4px;
+  box-shadow: var(--focus-ring);
+}
+
+.legs-leg-details__text {
+  margin: 0.45rem 0 0;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--doc-muted);
+  max-width: 65ch;
 }
 
 .legs-table__col-num {
@@ -2209,9 +2272,35 @@ body {
   padding: 1rem 1rem 1.125rem;
   min-width: 0;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
   box-shadow:
     0 1px 0 rgba(255, 255, 255, 0.85) inset,
     0 12px 36px rgba(15, 23, 42, 0.05);
+}
+
+@media (max-width: 640px) {
+  .route-visual {
+    padding: 0.85rem 0.75rem 1rem;
+  }
+
+  .route-visual__row {
+    min-width: min-content;
+  }
+
+  .legs-table__venue {
+    max-width: none;
+  }
+
+  .legs-table th,
+  .legs-table td {
+    padding: 0.55rem 0.65rem;
+  }
+
+  .hop-chart__plot {
+    gap: 0.5rem;
+    padding-bottom: 0.25rem;
+  }
 }
 
 .route-visual__header {

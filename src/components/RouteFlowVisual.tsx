@@ -13,7 +13,7 @@ export function RouteFlowVisual({ receipt }: { receipt: RouteReceipt }) {
       <div className="route-visual__header">
         <span className="route-visual__title">Aggregated path</span>
         <span className="route-visual__hint">
-          {hops.length} venue{hops.length !== 1 ? 's' : ''} · one user-facing swap operation
+          {hops.length} venue{hops.length !== 1 ? 's' : ''} composed by Omniston · one user-facing swap on TON
         </span>
       </div>
       <div className="route-visual__row">

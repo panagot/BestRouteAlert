@@ -31,6 +31,20 @@ function IconAmm() {
   )
 }
 
+function IconDeep() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden>
+      <path
+        d="M4 8.5 11 4l7 4.5-7 4.5-7-4.5zM4 13l7 4.5 7-4.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      <path d="M11 8.5v9" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.35" />
+    </svg>
+  )
+}
+
 function IconCheck() {
   return (
     <svg className="app-sidebar__check-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
@@ -49,6 +63,7 @@ function IconCheck() {
 const SCENARIO_ICONS = {
   rfq: IconRfq,
   amm: IconAmm,
+  deep: IconDeep,
 } as const
 
 const HIGHLIGHTS = [
@@ -85,13 +100,15 @@ export function Sidebar({
         </a>
         <div className="app-sidebar__masthead-text">
           <h1 className="app-sidebar__product">OmniReceipt</h1>
-          <p className="app-sidebar__product-sub">Best-route transparency for TON swaps</p>
+          <p className="app-sidebar__product-sub">Transparency layer for Omniston on TON</p>
         </div>
         <span className="app-sidebar__pill">UI prototype</span>
       </header>
 
       <p className="app-sidebar__tagline">
-        One readable receipt after an Omniston-style swap — <span className="app-sidebar__tagline-note">mock data here</span>.
+        Post-trade disclosure for aggregated swaps on{' '}
+        <strong className="app-sidebar__tagline-ton">TON</strong> (The Open Network — not the Tron blockchain).{' '}
+        <span className="app-sidebar__tagline-note">Mock data in this demo.</span>
       </p>
 
       <nav className="app-sidebar__nav" aria-label="Sample receipts">

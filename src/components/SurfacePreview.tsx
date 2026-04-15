@@ -94,7 +94,7 @@ export function SurfacePreview({
                 <span />
                 <span />
               </span>
-              <span className="surface-preview__web-url">receipt.omniston.example</span>
+              <span className="surface-preview__web-url">receipt.ton.example · Omniston</span>
             </div>
             <div className="surface-preview__web-body">
               <ReceiptPanel receipt={receipt} shareBaseUrl={shareBaseUrl} />

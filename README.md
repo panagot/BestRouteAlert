@@ -1,6 +1,6 @@
 # OmniReceipt (prototype)
 
-UI prototype for **post-trade transparency** on **TON**: after an **Omniston-style** swap, users see a **best-route receipt** — settlement snapshot, path, savings vs baseline, legs, and share/copy actions.
+UI prototype for **post-trade transparency** on **TON (The Open Network)** — *not* the Tron blockchain. After an **Omniston-style** aggregated swap, users see a **best-route receipt**: settlement snapshot, composed path, savings vs baseline, legs, and share/copy actions. Positioning: **transparency layer for Omniston** (wallets and mini-apps could embed the same layout).
 
 **Scope:** static **React + Vite** app with **mock** receipts only (no live Omniston SDK, signing, or storage). Includes **three preview surfaces**: full **web** disclosure doc, **wallet** sheet layout, and **Telegram** mini-app style (each is a different UI, not just a frame).
 
@@ -33,6 +33,12 @@ The address bar stays in sync with the UI (via `history.replaceState`). Query pa
 
 Example: `https://yoursite.example/?sample=amm&surface=wallet`
 
+Valid **`sample`** keys: `rfq`, `amm`, `deep` (third scenario — multi-hop with large vs-baseline story).
+
+### Vercel project name
+
+If the deployment URL still contains **`tron`**, consider renaming the Vercel project to something like **`omni-receipt-ton`** or **`omnireceipt`** so reviewers are not confused with the **Tron** chain. The product is **TON + Omniston** only.
+
 ## Deploy on Vercel
 
 1. Push this folder to a **GitHub** repository (root of the repo can be `omni-receipt` or the monorepo root — if the app lives in a subfolder, set **Root Directory** in Vercel to `omni-receipt`).
@@ -44,7 +50,7 @@ Example: `https://yoursite.example/?sample=amm&surface=wallet`
 ## What to try
 
 1. **Preview surface:** Switch **Web** / **Wallet** / **Telegram** above the receipt.
-2. **Samples:** Use the sidebar or **Alt+1** / **Alt+2** to switch mock scenarios.
+2. **Samples:** Use the sidebar or **Alt+1** … **Alt+9** to switch mock scenarios (three samples today).
 3. **Receipt:** Copy link / plain text; open explorer (demo links); print (sidebar hidden, receipt-focused).
 4. **Deep link:** Open with `?sample=…&surface=…` (see above); refresh keeps the same scenario via session storage if params are omitted.
 

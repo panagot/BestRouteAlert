@@ -25,6 +25,8 @@ function LegsTable({
   receipt: RouteReceipt
   showGasCol: boolean
 }) {
+  const colCount = 5 + (showGasCol ? 1 : 0)
+
   return (
     <div className="table-scroll">
       <table className="legs-table">
@@ -43,32 +45,46 @@ function LegsTable({
           </tr>
         </thead>
         <tbody>
-          {receipt.hops.map((h) => (
-            <tr key={h.step}>
-              <th scope="row" className="mono tabular legs-table__muted legs-table__rowhead">
-                {h.step}
-              </th>
-              <td>
-                <div className="legs-flow">
-                  <span className="mono tabular">{h.fromAmount}</span>
-                  <span className="legs-flow__sym">{h.fromSymbol}</span>
-                  <span className="legs-flow__arrow" aria-hidden>
-                    →
-                  </span>
-                  <span className="mono tabular">{h.toAmount}</span>
-                  <span className="legs-flow__sym">{h.toSymbol}</span>
-                </div>
-              </td>
-              <td className="legs-table__venue">{h.venueName}</td>
-              <td>
-                <VenueBadge kind={h.venueKind} />
-              </td>
-              {showGasCol && (
-                <td className="mono tabular legs-table__gas">{h.legGasNative ?? '—'}</td>
-              )}
-              <td className="mono tabular legs-table__num">{h.impactBps} bps</td>
-            </tr>
-          ))}
+          {receipt.hops.flatMap((h) => {
+            const mainRow = (
+              <tr key={h.step}>
+                <th scope="row" className="mono tabular legs-table__muted legs-table__rowhead">
+                  {h.step}
+                </th>
+                <td>
+                  <div className="legs-flow">
+                    <span className="mono tabular">{h.fromAmount}</span>
+                    <span className="legs-flow__sym">{h.fromSymbol}</span>
+                    <span className="legs-flow__arrow" aria-hidden>
+                      →
+                    </span>
+                    <span className="mono tabular">{h.toAmount}</span>
+                    <span className="legs-flow__sym">{h.toSymbol}</span>
+                  </div>
+                </td>
+                <td className="legs-table__venue">{h.venueName}</td>
+                <td>
+                  <VenueBadge kind={h.venueKind} />
+                </td>
+                {showGasCol && (
+                  <td className="mono tabular legs-table__gas">{h.legGasNative ?? '—'}</td>
+                )}
+                <td className="mono tabular legs-table__num">{h.impactBps} bps</td>
+              </tr>
+            )
+            if (!h.legNote) return [mainRow]
+            return [
+              mainRow,
+              <tr key={`${h.step}-note`} className="legs-table__sub">
+                <td colSpan={colCount} className="legs-table__sub-cell">
+                  <details className="legs-leg-details">
+                    <summary className="legs-leg-details__summary">Why this leg (educational)</summary>
+                    <p className="legs-leg-details__text">{h.legNote}</p>
+                  </details>
+                </td>
+              </tr>,
+            ]
+          })}
         </tbody>
       </table>
     </div>
@@ -152,10 +168,16 @@ export function ReceiptPanel({
           <span className="receipt-doc__chrome-sep" aria-hidden>
             ·
           </span>
-          <span className="receipt-doc__doc-type">Best-route receipt</span>
+          <span className="receipt-doc__doc-type">Best-route receipt · Omniston on TON</span>
         </div>
         <div className="receipt-doc__chrome-right">
           <ChainLinkMotif />
+          <span
+            className="receipt-doc__trust-badge"
+            title="Production: tie to signed quote bundle + explorer tx. This badge is illustrative only."
+          >
+            Verified path (demo)
+          </span>
           <span className="receipt-doc__status" title="Demo only — not a live settlement flag">
             <span className="receipt-doc__status-dot" aria-hidden />
             Settled
@@ -219,8 +241,9 @@ export function ReceiptPanel({
             </svg>
           </span>
           <span className="receipt-doc__intro-copy">
-            Everything below is a <strong>static mock</strong> shaped like a production receipt: the same sections you
-            would bind to real Omniston quotes, wallet context, and an on-chain transaction on TON.
+            Everything below is a <strong>static mock</strong> shaped like a production receipt.{' '}
+            <strong>TON</strong> means <strong>The Open Network</strong> — not the Tron blockchain. Omniston-style
+            routing compares venues and solvers; this layout is how that story could look after settlement.
           </span>
         </p>
 

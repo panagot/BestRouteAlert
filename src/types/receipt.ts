@@ -11,6 +11,8 @@ export interface RouteHop {
   impactBps: number
   /** Estimated gas attributed to this leg (prototype). */
   legGasNative?: string
+  /** Optional educational blurb (e.g. expandable row in web legs table). */
+  legNote?: string
 }
 
 export interface QuoteComparison {

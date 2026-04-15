@@ -8,7 +8,8 @@ export function buildReceiptTextSummary(receipt: RouteReceipt, shareUrl: string)
     receipt.totalGas != null ? `${receipt.totalGas.amount} ${receipt.totalGas.symbol} fee` : null
   const lines = [
     `OmniReceipt · ${receipt.spent.symbol} → ${receipt.received.symbol}`,
-    `Ref #${receipt.shortId} · ${receipt.network}`,
+    `Network: ${receipt.network} (TON = The Open Network, not Tron) · Omniston-style route disclosure`,
+    `Ref #${receipt.shortId}`,
     receipt.userAddressTruncated ? `Wallet: ${receipt.userAddressTruncated}` : null,
     receipt.blockHeight != null ? `Block: ${receipt.blockHeight}` : null,
     `Sold ${receipt.spent.amount} ${receipt.spent.symbol} → Bought ${receipt.received.amount} ${receipt.received.symbol}`,

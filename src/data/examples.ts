@@ -46,6 +46,8 @@ export const EXAMPLE_RFQ_WINS: RouteReceipt = {
       venueKind: 'rfq',
       impactBps: 4,
       legGasNative: '0.128 TON',
+      legNote:
+        'RFQ solver quoted a tighter TON→tsTON leg than the continuation you would get from pool mid-price alone at this size.',
     },
   ],
   comparison: {
@@ -91,6 +93,8 @@ export const EXAMPLE_AMM_ONLY: RouteReceipt = {
       venueKind: 'amm',
       impactBps: 9,
       legGasNative: '0.091 TON',
+      legNote:
+        'First hop exits stables into native TON where book depth is best — avoids paying the wide spread on a thin USDT/STON leg.',
     },
     {
       step: 2,
@@ -112,6 +116,80 @@ export const EXAMPLE_AMM_ONLY: RouteReceipt = {
   },
 }
 
+/** Three hops, RFQ finish — large gap vs a naive single-pool baseline (grant story). */
+export const EXAMPLE_DEEP_ROUTE: RouteReceipt = {
+  id: 'ex_deep_9x3k',
+  shortId: '9X3K',
+  createdAtIso: '2026-04-13T16:42:01.000Z',
+  network: 'TON mainnet',
+  txHash: 'EQF8…2a91',
+  spent: { amount: '2,400.00', symbol: 'USDT' },
+  received: { amount: '318.94', symbol: 'tsTON' },
+  effectiveRate: '1 USDT = 0.13289 tsTON',
+  savingsVsBestSingleVenueBps: 82,
+  summaryLine:
+    'Omniston compared multiple AMM books and RFQ solvers; the winning package used three hops and an exit RFQ. After fees you kept about 0.82% more tsTON than the “one-hop” baseline that looked cheaper in the UI.',
+  userAddressTruncated: 'UQE…9x3k',
+  walletLabel: 'Tonkeeper',
+  blockHeight: 48_302_881,
+  explorerTxUrl:
+    'https://tonviewer.com/transaction/aa1155ee77aa66bb88cc99dd00ee11ff22aa33bb44cc55dd66ee77ff88aa99bb',
+  slippageBps: 60,
+  totalGas: { amount: '0.267', symbol: 'TON' },
+  referralFeeNote: 'Integrator 0.04% included in quoted output.',
+  whyRouteWon:
+    'At this notional, a direct USDT→tsTON pool quote looked fine until you factor price impact and the exit leg. Omniston evaluated seven liquidity surfaces (two RFQ desks, five AMM routes); the composed path minimized slippage by splitting the bridge through TON and GEMSTON, then tightening the last leg with an RFQ.',
+  baselineOutputAmount: '316.34 tsTON',
+  signedReceiptPlaceholder: 'att:v0:mock:deep-route-9x3k (replace with signed digest in production)',
+  hops: [
+    {
+      step: 1,
+      fromSymbol: 'USDT',
+      toSymbol: 'TON',
+      fromAmount: '2,400.00',
+      toAmount: '684.5520',
+      venueName: 'DeDust · USDT/TON',
+      venueKind: 'amm',
+      impactBps: 11,
+      legGasNative: '0.094 TON',
+      legNote:
+        'Wide USDT book on DeDust at this size; Omniston used it as the cheapest on-ramp into native TON for the next hop.',
+    },
+    {
+      step: 2,
+      fromSymbol: 'TON',
+      toSymbol: 'GEMSTON',
+      fromAmount: '684.5520',
+      toAmount: '51,204.00',
+      venueName: 'STON.fi v2 · GEMSTON/TON',
+      venueKind: 'amm',
+      impactBps: 14,
+      legGasNative: '0.098 TON',
+      legNote:
+        'GEMSTON/TON carried better depth than routing straight to tsTON here — intermediate hop reduces cumulative price impact.',
+    },
+    {
+      step: 3,
+      fromSymbol: 'GEMSTON',
+      toSymbol: 'tsTON',
+      fromAmount: '51,204.00',
+      toAmount: '318.94',
+      venueName: 'Resolver · OTC RFQ',
+      venueKind: 'rfq',
+      impactBps: 5,
+      legGasNative: '0.075 TON',
+      legNote:
+        'Solver beat the visible pool continuation on GEMSTON→tsTON; RFQ leg is where multi-venue aggregation often wins.',
+    },
+  ],
+  comparison: {
+    winner: 'rfq',
+    winnerLabel: 'Composed AMM + RFQ (Omniston)',
+    edgeBps: 82,
+    runnerUpLabel: 'Direct USDT→tsTON (single pool, high impact)',
+  },
+}
+
 export const EXAMPLES: { key: string; label: string; description: string; receipt: RouteReceipt }[] = [
   {
     key: 'rfq',
@@ -124,5 +202,11 @@ export const EXAMPLES: { key: string; label: string; description: string; receip
     label: 'Pure AMM composition',
     description: 'Two venues, two hops, one settlement — beats a thin direct pair at this notional.',
     receipt: EXAMPLE_AMM_ONLY,
+  },
+  {
+    key: 'deep',
+    label: 'Deep route · big vs baseline',
+    description: 'Three hops, seven surfaces compared — RFQ exit vs a “simple” pool that costs you.',
+    receipt: EXAMPLE_DEEP_ROUTE,
   },
 ]

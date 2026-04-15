@@ -189,7 +189,8 @@ export function ProofAttestation({ placeholder }: { placeholder?: string }) {
       </div>
       <p className="proof-box__desc">
         Later: hash the quote bundle + tx outcome, optionally sign with your attestation service or wallet, so
-        third parties can verify this screen against raw data. Below is a stand-in string only.
+        third parties can verify this screen against raw data — a compliance-friendly complement to explorer links.
+        Below is a stand-in string only.
       </p>
       <code className="proof-box__code mono">{placeholder}</code>
     </section>
