@@ -189,19 +189,13 @@ export default function App() {
           <aside id="register" className="register-card" aria-label="Register interest">
             <h2>Register interest</h2>
             <p className="register-sub">
-              Waitlist-style form: you share which pairs matter to you and where alerts should go (X, Telegram, or API).
-              Posts use the same structured route-quality format as the samples on this page when a threshold is met, not
-              custom tweet copy from you. Production would store preferences and issue API keys or bot links.
+              Prototype form. Production would store preferences and issue API keys / bot links.
             </p>
-            <p className="register-clarify">Prototype only: nothing is saved or sent when you submit.</p>
             <form onSubmit={onRegisterSubmit}>
               <label>
                 Pair set
                 <input type="text" placeholder="TON/USDT, TON/STON, …" name="pairs" />
-                <span className="field-hint">
-                  Pairs you want monitored (comma-separated). Alert wording follows the samples below, not free-form
-                  topics.
-                </span>
+                <span className="field-hint">Comma-separated; we validate against supported jettons.</span>
               </label>
               <label>
                 Email
@@ -210,7 +204,6 @@ export default function App() {
               <label>
                 X handle
                 <input type="text" placeholder="@yourhandle" name="x" />
-                <span className="field-hint">For contact or where to follow; does not set what the bot would say.</span>
               </label>
               <label>
                 Telegram
@@ -240,7 +233,7 @@ export default function App() {
               </label>
               {registerAck && (
                 <p className="register-feedback" role="status">
-                  Thanks. Prototype only; nothing was stored or sent.
+                  Thanks. This is a prototype only; nothing was stored or sent.
                 </p>
               )}
               <button type="submit" className="register-submit">
