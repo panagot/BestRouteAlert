@@ -327,7 +327,7 @@ button:focus-visible {
   font-size: 0.92rem;
 }
 
-.register-card label {
+.register-card label:not(.check) {
   display: grid;
   gap: 0.36rem;
   font-weight: 600;
@@ -346,6 +346,10 @@ button:focus-visible {
   border: none;
   margin: 0 0 0.75rem;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.05rem;
 }
 
 .channel-picks legend {
@@ -357,20 +361,26 @@ button:focus-visible {
 
 .check {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.5rem;
   font-weight: 500;
   font-size: 0.88rem;
   color: #4b586f;
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.4rem;
 }
 
-.check input {
-  width: auto;
+.check input[type='checkbox'] {
+  width: 1rem;
+  min-width: 1rem;
+  height: 1rem;
+  margin: 0;
+  flex-shrink: 0;
   accent-color: var(--ton-blue);
+  border-radius: 4px;
 }
 
-.register-card input {
+.register-card input:not([type='checkbox']):not([type='radio']) {
   width: 100%;
   border: 1px solid #dde3ee;
   border-radius: 9px;
@@ -378,7 +388,7 @@ button:focus-visible {
   font: inherit;
 }
 
-.register-card input:focus-visible {
+.register-card input:not([type='checkbox']):not([type='radio']):focus-visible {
   outline: 2px solid var(--ton-blue-glow);
   border-color: var(--ton-blue);
 }
@@ -466,6 +476,18 @@ button:focus-visible {
   margin-bottom: 0.75rem;
 }
 
+.api-panel__intro {
+  margin-bottom: 0.65rem;
+}
+
+.api-panel__toggle {
+  margin-top: 0.15rem;
+}
+
+.api-panel__reveal {
+  margin-top: 1rem;
+}
+
 .panel {
   padding: 1.1rem 1.15rem;
 }
@@ -482,12 +504,6 @@ button:focus-visible {
   font-size: 0.95rem;
   max-width: 72ch;
   line-height: 1.55;
-}
-
-.panel-lede--tight {
-  margin-top: -0.15rem;
-  margin-bottom: 0.85rem;
-  font-size: 0.9rem;
 }
 
 .pillars {
@@ -532,19 +548,6 @@ button:focus-visible {
 .grid p {
   margin: 0.4rem 0 0;
   color: #5f6a7d;
-}
-
-.grid--plans .plan-price {
-  margin: 0.35rem 0 0.5rem;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #1a8bc8;
-}
-
-.plan--featured {
-  border-color: rgba(77, 184, 255, 0.55);
-  box-shadow: 0 0 0 1px rgba(77, 184, 255, 0.12);
-  background: linear-gradient(180deg, var(--ton-blue-soft) 0%, #fff 100%);
 }
 
 .table-wrap {
@@ -865,11 +868,6 @@ button:focus-visible {
   text-align: center;
   padding: 0.35rem 0;
   line-height: 1.5;
-}
-
-.footer-domain {
-  font-weight: 700;
-  color: #1a8bc8;
 }
 
 @media (max-width: 840px) {

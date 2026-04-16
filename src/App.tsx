@@ -87,6 +87,7 @@ export default function App() {
   const [copyState, setCopyState] = useState<'idle' | 'copied' | 'error'>('idle')
   const [tweetCopy, setTweetCopy] = useState<'idle' | 'copied' | 'error'>('idle')
   const [topScrolled, setTopScrolled] = useState(false)
+  const [apiOpen, setApiOpen] = useState(false)
 
   useEffect(() => {
     const onScroll = () => setTopScrolled(window.scrollY > 6)
@@ -135,11 +136,10 @@ export default function App() {
           </a>
           <nav className="topbar__nav" aria-label="Primary">
             <a href="#outputs">Channels</a>
-            <a href="#how">How it works</a>
             <a href="#board">Route board</a>
-            <a href="#api">API sample</a>
-            <a href="#plans">Plans</a>
+            <a href="#tweet">Sample X</a>
             <a href="#feed">Sample alerts</a>
+            <a href="#api">API sample</a>
           </nav>
         </header>
       </div>
@@ -158,20 +158,21 @@ export default function App() {
             </h1>
             <p className="lead">
               We poll quoted net outcomes on tracked pairs and compare them to a <strong>conservative baseline</strong>{' '}
-              (e.g. best single-venue AMM path without RFQ/solver composition). When the gap crosses your threshold—after
-              cooldown—we emit the same structured signal to <strong>X</strong>, <strong>Telegram</strong>, and a{' '}
-              <strong>builder API</strong>. Informational snapshots only, not trade advice.
+              (for example, the best single-venue AMM path without RFQ or solver composition). When the gap clears your
+              threshold and the cooldown period has passed, we emit the same structured signal to <strong>X</strong>,{' '}
+              <strong>Telegram</strong>, and a <strong>builder API</strong>. These are informational quote snapshots only,
+              not trade advice.
             </p>
             <div className="hero-actions">
               <a className="btn btn--primary" href="#register">
                 Request access
               </a>
-              <a className="btn btn--secondary" href="#how">
-                How it works
+              <a className="btn btn--secondary" href="#board">
+                Route board
               </a>
             </div>
             <ul className="trust-list">
-              <li>Quotes and route metadata only—no signing, no custody</li>
+              <li>Quotes and route metadata only: no signing, no custody</li>
               <li>Thresholds + cooldowns to reduce noise</li>
               <li>Same alert shape to X, Telegram, and API consumers</li>
             </ul>
@@ -188,7 +189,7 @@ export default function App() {
           <aside id="register" className="register-card" aria-label="Register interest">
             <h2>Register interest</h2>
             <p className="register-sub">
-              Prototype form for reviewers. Production would store preferences and issue API keys / bot links.
+              Prototype form. Production would store preferences and issue API keys / bot links.
             </p>
             <form onSubmit={onRegisterSubmit}>
               <label>
@@ -232,7 +233,7 @@ export default function App() {
               </label>
               {registerAck && (
                 <p className="register-feedback" role="status">
-                  Thanks — prototype only; nothing was stored or sent.
+                  Thanks. This is a prototype only; nothing was stored or sent.
                 </p>
               )}
               <button type="submit" className="register-submit">
@@ -245,8 +246,7 @@ export default function App() {
         <section id="outputs" className="panel">
           <h2>Five delivery pillars</h2>
           <p className="panel-lede">
-            Public distribution, operator channels, and developer access in one stack—without turning the product into a
-            swap UI.
+            Public alerts, Telegram, and a builder API in one stack, without turning the product into a swap interface.
           </p>
           <div className="pillars">
             {outputs.map((o) => (
@@ -258,38 +258,11 @@ export default function App() {
           </div>
         </section>
 
-        <section id="how" className="panel">
-          <h2>How it works</h2>
-          <p className="panel-lede panel-lede--tight">
-            <strong>Baseline (illustrative):</strong> “What if you only took the best single-pool AMM leg?” vs{' '}
-            <strong>quoted winner:</strong> the aggregator’s full composed route (AMM + RFQ/solvers as returned by the
-            quote engine at poll time).
-          </p>
-          <div className="grid">
-            <article>
-              <h3>1. Poll quotes</h3>
-              <p>Scheduler hits tracked pairs on a fixed interval (e.g. 30–60s) and stores rolling snapshots.</p>
-            </article>
-            <article>
-              <h3>2. Dual probes</h3>
-              <p>Each pair can run two notionals (retail + whale) so large-size improvements are not missed.</p>
-            </article>
-            <article>
-              <h3>3. Detect real change</h3>
-              <p>Compare quoted winner vs baseline; fire only when the edge clears a threshold and cooldown.</p>
-            </article>
-            <article>
-              <h3>4. Multi-channel publish</h3>
-              <p>Emit the same structured alert to X, Telegram, and the Builder API (plus on-site route board).</p>
-            </article>
-          </div>
-        </section>
-
         <section id="board" className="panel">
           <h2>Route quality board (mock)</h2>
           <p className="panel-lede">
-            Public verification surface: recent edge vs baseline per pair and probe size. Live build would refresh from
-            stored snapshots.
+            Public verification surface: recent edge vs baseline per pair and probe size. A live service would refresh this
+            table from stored snapshots.
           </p>
           <div className="table-wrap">
             <table className="route-table">
@@ -317,64 +290,6 @@ export default function App() {
           </div>
         </section>
 
-        <section id="api" className="panel api-panel">
-          <h2>Builder API — sample payload</h2>
-          <p className="panel-lede">
-            One JSON shape for webhooks, pull endpoints, and future WebSocket frames. Field names are illustrative.
-          </p>
-          <div className="code-block">
-            <div className="code-block__bar">
-              <span className="code-block__label">application/json</span>
-              <button type="button" className="btn btn--small btn--ghost" onClick={() => void copySampleJson()}>
-                {copyState === 'copied' ? 'Copied' : copyState === 'error' ? 'Copy failed' : 'Copy JSON'}
-              </button>
-            </div>
-            <pre className="code-block__pre">
-              <code>{SAMPLE_ALERT_JSON}</code>
-            </pre>
-          </div>
-        </section>
-
-        <section id="plans" className="panel">
-          <h2>Plans (illustrative)</h2>
-          <div className="grid grid--plans">
-            <article>
-              <h3>Starter</h3>
-              <p className="plan-price">Community</p>
-              <p>5 pairs, slower poll, X + email digest.</p>
-            </article>
-            <article className="plan--featured">
-              <h3>Builder</h3>
-              <p className="plan-price">Recommended</p>
-              <p>10 pairs, dual probes, X + Telegram + read-only API keys, route board MVP.</p>
-            </article>
-            <article>
-              <h3>Pro</h3>
-              <p className="plan-price">Teams</p>
-              <p>Custom pairs, webhooks, SLA-friendly cooldown tuning, exportable history.</p>
-            </article>
-          </div>
-        </section>
-
-        <section id="feed" className="panel">
-          <h2>Sample alerts</h2>
-          <p className="panel-lede">
-            Illustrative payloads—the same structure would go to X, Telegram, and API consumers.
-          </p>
-          <ul className="feed">
-            {mockedEvents.map((item) => (
-              <li key={`${item.pair}-${item.eta}`}>
-                <div className="feed__head">
-                  <strong>{item.pair}</strong>
-                  <small>{item.eta}</small>
-                </div>
-                <span className="gain">{item.move}</span>
-                <p>{item.note}</p>
-              </li>
-            ))}
-          </ul>
-        </section>
-
         <section id="tweet" className="panel tweet-panel">
           <div className="panel-head-row">
             <h2>Sample X post</h2>
@@ -383,8 +298,8 @@ export default function App() {
             </button>
           </div>
           <p className="panel-lede">
-            Mock of a real bot post: short headline, scannable numbers, and fields that mirror the API payload so the
-            story stays consistent across X, Telegram, and integrations.
+            Mock of a real bot post: short headline, scannable numbers, and fields aligned with the JSON alert shape used
+            for X, Telegram, and integrations.
           </p>
 
           <article className="x-post" aria-label="Example X post">
@@ -409,7 +324,7 @@ export default function App() {
                 <span className="x-post__emoji" aria-hidden>
                   📈
                 </span>{' '}
-                Route quality <strong>up</strong> — <span className="x-post__pair">TON/USDT</span>{' '}
+                Route quality <strong>up</strong>: <span className="x-post__pair">TON/USDT</span>{' '}
                 <span className="x-post__pill">whale probe</span>
               </p>
               <p className="x-post__lead">
@@ -436,7 +351,7 @@ export default function App() {
             </div>
 
             <footer className="x-post__foot">
-              <span className="x-post__hint">Demo layout — not a live account</span>
+              <span className="x-post__hint">Demo layout (not a live account)</span>
               <div className="x-post__actions" aria-hidden>
                 <span>💬 12</span>
                 <span>🔁 48</span>
@@ -447,9 +362,60 @@ export default function App() {
           </article>
         </section>
 
+        <section id="feed" className="panel">
+          <h2>Sample alerts</h2>
+          <p className="panel-lede">
+            Illustrative payloads. The same structure would go to X, Telegram, and API consumers.
+          </p>
+          <ul className="feed">
+            {mockedEvents.map((item) => (
+              <li key={`${item.pair}-${item.eta}`}>
+                <div className="feed__head">
+                  <strong>{item.pair}</strong>
+                  <small>{item.eta}</small>
+                </div>
+                <span className="gain">{item.move}</span>
+                <p>{item.note}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section id="api" className="panel api-panel">
+          <h2>Builder API</h2>
+          <p className="panel-lede api-panel__intro">
+            Sample JSON for alerts and webhooks. Field names are illustrative.
+          </p>
+          <button
+            type="button"
+            className="btn btn--secondary api-panel__toggle"
+            aria-expanded={apiOpen}
+            aria-controls="api-sample-panel"
+            id="api-sample-toggle"
+            onClick={() => setApiOpen((o) => !o)}
+          >
+            {apiOpen ? 'Hide sample payload' : 'Show sample payload'}
+          </button>
+          {apiOpen && (
+            <div id="api-sample-panel" className="api-panel__reveal" role="region" aria-labelledby="api-sample-toggle">
+              <div className="code-block">
+                <div className="code-block__bar">
+                  <span className="code-block__label">application/json</span>
+                  <button type="button" className="btn btn--small btn--ghost" onClick={() => void copySampleJson()}>
+                    {copyState === 'copied' ? 'Copied' : copyState === 'error' ? 'Copy failed' : 'Copy JSON'}
+                  </button>
+                </div>
+                <pre className="code-block__pre">
+                  <code>{SAMPLE_ALERT_JSON}</code>
+                </pre>
+              </div>
+            </div>
+          )}
+        </section>
+
         <footer className="footer-note">
-          <span className="footer-domain">bestroutealert.com</span> · Independent prototype. Not affiliated with STON.fi,
-          Omniston, or the TON Foundation. No live posting or backend in this repository yet.
+          Independent prototype. Not affiliated with STON.fi, Omniston, or the TON Foundation. No live posting or backend
+          in this repository yet.
         </footer>
       </main>
     </>
