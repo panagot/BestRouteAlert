@@ -1,6 +1,6 @@
 {
-  "name": "omni-receipt",
-  "description": "OmniReceipt — transparent Omniston routes on TON (The Open Network). UI prototype.",
+  "name": "bestroutealert",
+  "description": "Best Route Alert — TON route-edge monitoring prototype (X, Telegram, builder API).",
   "private": true,
   "version": "0.1.0",
   "type": "module",

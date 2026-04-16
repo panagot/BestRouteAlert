@@ -1,65 +1,35 @@
-# OmniReceipt (prototype)
+# Best Route Alert
 
-**OmniReceipt** — transparent **Omniston** routes on **TON (The Open Network)** (*not* the Tron blockchain). Positioning: **the missing receipt layer** that makes multi-venue aggregation and RFQ vs AMM competition legible after settlement. Wallets and mini-apps could embed the same layout. This repo is a **static UI prototype** (settlement snapshot, route, savings vs baseline, share/copy).
+**Best Route Alert** is a **TON** prototype for **route-edge monitoring**: poll quoted swap outcomes on tracked pairs, compare them to a **conservative baseline**, and publish **structured alerts** to **X**, **Telegram**, and a **builder API** (plus a mock route-quality board on this site).
 
-**Scope:** static **React + Vite** app with **mock** receipts only (no live Omniston SDK, signing, or storage). Includes **three preview surfaces**: full **web** disclosure doc, **wallet** sheet layout, and **Telegram** mini-app style (each is a different UI, not just a frame).
+**Intended domain:** [bestroutealert.com](https://bestroutealert.com/) (configure DNS → your host when ready).
+
+**What this repo is:** a **static React + Vite** marketing/UI demo (mock data, prototype form, sample X card, sample JSON). No live quote polling, posting, or backend.
 
 ## Run locally
 
 ```bash
-cd omni-receipt
+cd bestroutealert
 npm install
 npm run dev
 ```
 
-Open the URL shown in the terminal (usually `http://localhost:5173`).
+Then open the URL Vite prints (usually `http://localhost:5173`).
 
 ## Scripts
 
-| Command        | Description                          |
-| -------------- | ------------------------------------ |
-| `npm run dev`  | Vite dev server                      |
-| `npm run build`| Typecheck + production build → `dist` |
-| `npm run preview` | Serve `dist` locally |
-| `npm run lint` | ESLint                               |
-| `npm run typecheck` | TypeScript only (`tsc -b`) |
+| Command           | Description              |
+| ----------------- | ------------------------ |
+| `npm run dev`     | Vite dev server          |
+| `npm run build`   | Typecheck + `dist` build |
+| `npm run preview` | Serve `dist` locally     |
+| `npm run lint`    | ESLint                   |
+| `npm run typecheck` | TypeScript only        |
 
-## Shareable preview URL
+## Deploy (Vercel)
 
-The address bar stays in sync with the UI (via `history.replaceState`). Query params:
+Import this repo (or connect the GitHub repo), framework **Vite**, root directory **`bestroutealert`** if the monorepo lives above it—or set the project root to this folder. Add the custom domain **bestroutealert.com** in Vercel and point DNS per Vercel’s instructions.
 
-- **`sample`** — mock receipt id: `rfq` or `amm` (matches sidebar samples).
-- **`surface`** — `web`, `wallet`, or `telegram`.
+## Disclaimer
 
-Example: `https://yoursite.example/?sample=amm&surface=wallet`
-
-Valid **`sample`** keys: `rfq`, `amm`, `deep` (third scenario — multi-hop with large vs-baseline story).
-
-### Vercel project name
-
-If the deployment URL still contains **`tron`**, consider renaming the Vercel project to something like **`omni-receipt-ton`** or **`omnireceipt`** so reviewers are not confused with the **Tron** chain. The product is **TON + Omniston** only.
-
-## Deploy on Vercel
-
-1. Push this folder to a **GitHub** repository (root of the repo can be `omni-receipt` or the monorepo root — if the app lives in a subfolder, set **Root Directory** in Vercel to `omni-receipt`).
-2. In [Vercel](https://vercel.com): **Add New Project** → import the repo. Vercel detects **Vite**; leave defaults (`npm run build`, output `dist`).
-3. Deploy. Optional: set a production URL in `index.html` for `og:url` / `twitter:url` if you want link previews to point at the live site.
-
-`vercel.json` includes a SPA-style rewrite so paths like `/r/...` resolve to the app (placeholder share URLs in the demo).
-
-## What to try
-
-1. **Preview surface:** Switch **Web** / **Wallet** / **Telegram** above the receipt.
-2. **Samples:** Use the sidebar or **Alt+1** … **Alt+9** to switch mock scenarios (three samples today).
-3. **Receipt:** Copy link / plain text; open explorer (demo links); print (sidebar hidden, receipt-focused).
-4. **Deep link:** Open with `?sample=…&surface=…` (see above); refresh keeps the same scenario via session storage if params are omitted.
-
-## Product intent
-
-- **Users:** Understand *what* traded and *why* the route looked that way.
-- **Integrators:** Reuse a consistent disclosure layout for support and trust.
-- **Grants / partners:** Demonstrate Omniston-class routing transparency without raw explorer UIs.
-
-## Tech stack
-
-React 19, Vite 8, TypeScript. Fonts: Plus Jakarta Sans, JetBrains Mono (Google Fonts).
+Alerts are **informational quote snapshots**, not execution guarantees or financial advice.

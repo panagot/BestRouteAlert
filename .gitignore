@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local asset copy at repo root only (served from public/TONBOT)
+/TONBOT/
